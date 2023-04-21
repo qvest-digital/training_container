@@ -4,7 +4,7 @@ revealOptions:
 
 ---
 
-# Container mit Docker
+# Container mit Podman
 
 <div id="header-footer">
   <p class="slide-footer"><img src="images/light.svg" height="40" width="200"><br>tarent solutions GmbH<br>Volker Schmitz & Daniel Zerlett</p>
@@ -130,20 +130,20 @@ Note:
 ## hello-world
 
 ```bash
-docker run hello-world
+podman run hello-world
 ```
 
 <iframe src="http://localhost:42000?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
-Erster Gehversuch mit Docker, Docker Umgebung funktioniert.
-`docker run [options] IMAGE [COMMAND] [ARG...] [flags]`
+Erster Gehversuch mit Podman, Podman Umgebung funktioniert.
+`podma run [options] IMAGE [COMMAND] [ARG...] [flags]`
 
 ----
 
-## Docker CLI
+## Podman CLI
 
-Docker CLI ist ein Kommandozeilen-Tool mit dem sich der Docker-Daemon kontrollieren lässt.
+Podman CLI ist ein Kommandozeilen-Tool mit dem sich der Docker-Daemon kontrollieren lässt.
 
 Einfache Anwendungsfälle von Docker CLI:
 - Container erstellen
@@ -152,18 +152,18 @@ Einfache Anwendungsfälle von Docker CLI:
 - Container stoppen
 
 Note:
-Ziel: Docker CLI Grundlagen verstehen
+Ziel: Podman CLI Grundlagen verstehen
 Systemd-Analogie ansprechen
 
 ----
 
-## Docker CLI
+## Podman CLI
 
 ```shell
-docker run -p 8080:80 wordpress
-docker run -d -p 8080:80 wordpress
-docker ps
-docker logs <containerID>
+podman run -p 8080:80 wordpress
+podman run -d -p 8080:80 wordpress
+podman ps
+podman logs <containerID>
 ```
 
 <iframe width="100%" src="http://localhost:42010?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -178,7 +178,7 @@ Ziel ist es zu erkennen, wie einfach die Instalation ist.
 
 ## Übung gitea
 
-- Starte "gitea" vom Docker-Image "gitea/gitea" im Hintergund
+- Starte "gitea" vom Image "gitea/gitea" im Hintergund
 - Exponiere den Container-Port 3000 auf den Host-Port 3000
 - Zeige alle laufenden Docker-Prozesse an
 - Erkenne, ob der Port 3000 auf Port 3000 exponiert ist
@@ -192,31 +192,30 @@ Bonus bonus: Gibt es noch andere Ports im gitea-Container, die nicht exponiert s
 ## Übung gitea
 
 ```shell
-docker run -d -p 3000:3000 gitea/gitea
-docker ps
-docker logs <containerID>
+podman run -d -p 3000:3000 gitea/gitea
+podman ps
+podman logs <containerID>
 ```
 
 <iframe width="100%" src="http://localhost:42020?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
 ```shell
-docker logs -f <containerID>
-
+podman logs -f <containerID>
 ```
 ----
 
 ## Zusammenfassung
 
 - Erstellen eines Containers mit exponiertem Port
-  - `docker run`
+  - `podman run`
 - Containerübersicht
-  - `docker ps`
+  - `podman ps`
 - Ausgabe von Logs
-  - `docker logs`
+  - `podman logs`
 - Docker CLI Hilfe
-  - `docker help`
-  - `docker help <subcommand>`
+  - `podman help`
+  - `podman help <subcommand>`
 
 ---
 
@@ -233,9 +232,9 @@ docker logs -f <containerID>
 <img src="images/simple_lifecycle.svg"/>
 
 Note:
-docker ps -a
-docker stop
-docker rm
+podman ps -a
+podman stop
+podman rm
 
 ----
 
@@ -256,7 +255,7 @@ docker rm
 - unless-stopped
 
 ```shell
-  docker run --restart=always alpine /bin/false
+  podman run --restart=always alpine /bin/false
 ```
 
 <iframe class=small width="100%" src="http://localhost:42031?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -269,7 +268,7 @@ docker rm
 
 Note:
 
-- Docker Status übersicht und Lifecycle
+- Podman Status übersicht und Lifecycle
   - Created
     - Container ist erstellt aber nicht gestartet
   - Running
@@ -294,13 +293,13 @@ Note:
 
 ## Einblick Portfreigaben
 
-Docker kann Container Ports an Hostports binden (exponieren).
+Podman kann Container Ports an Hostports binden (exponieren).
 
 ```shell
-docker run -d -p 8081:80 wordpress
-docker run -d -p 80 wordpress
-docker run -d -p 8082:80 -p 8443:443 wordpress
-docker ps
+podman run -d -p 8081:80 wordpress
+podman run -d -p 80 wordpress
+podman run -d -p 8082:80 -p 8443:443 wordpress
+podman ps
 ```
 
 <iframe width="100%" src="http://localhost:42040?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -319,35 +318,35 @@ Docker kann Containerverzeichnisse mit lokalen Verzeichnissen verbinden ("volume
 
 - Volumetypen
   - anonymous
-    - `docker run -v /path/in/container ...`
+    - `podman run -v /path/in/container ...`
   - named
-    - `docker volume create somevolumename`
-    - `docker run -v name:/path/in/container ...`
+    - `podman volume create somevolumename`
+    - `podman run -v name:/path/in/container ...`
   - host
-    - `docker run -v /path/on/host:/path/in/container ...`
+    - `podman run -v /path/on/host:/path/in/container ...`
 
 ----
 
 ## Demo Host-Volume
 
 ```shell
-docker run -v /root/examples/nginx/:/usr/share/nginx/html:ro -d nginx
+podman run -v /root/examples/nginx/:/usr/share/nginx/html:ro -d nginx
 ```
 
 <iframe width="100%" src="http://localhost:42050?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
 
-### Docker Volumes Detail
+### Podman Volumes Detail
 
 - Jedes lokale Verzeichnis kann in Container gemounted werden
   - Lesen von Configs <!-- .element: class="fragment" -->
   - Generierten output vom Container persistieren <!-- .element: class="fragment" -->
 - Standard: read/write (rw) <!-- .element: class="fragment" -->
-  - docker run -v /local/folder:/container/folder imageName <!-- .element: class="fragment" -->
-  - docker run -v /local/folder:/container/folder:rw imageName <!-- .element: class="fragment" -->
+  - podman run -v /local/folder:/container/folder imageName <!-- .element: class="fragment" -->
+  - podman run -v /local/folder:/container/folder:rw imageName <!-- .element: class="fragment" -->
 - Read only (ro) <!-- .element: class="fragment" -->
-  - docker run -v /local/folder:/container/folder:ro imageName <!-- .element: class="fragment" -->
+  - podman run -v /local/folder:/container/folder:ro imageName <!-- .element: class="fragment" -->
 
 ----
 
@@ -373,10 +372,10 @@ docker run -v /root/examples/nginx/:/usr/share/nginx/html:ro -d nginx
 <iframe width="100%" src="http://localhost:42060?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
-docker run -v /root/examples/gitea/data:/data -p 3000:3000 -p 22:3022 -d gitea/gitea
-docker stop `containterid`
-docker rm `containerid`
-docker rm -f `containerid`
+podman run -v /root/examples/gitea/data:/data -p 3000:3000 -p 22:3022 -d gitea/gitea
+podman stop `containterid`
+podman rm `containerid`
+podman rm -f `containerid`
 
 ----
 
@@ -390,11 +389,11 @@ docker rm -f `containerid`
   - Volumetypen
   - Schreibberechtigung (ro/rw)
 - Stoppen und löschen von Containern
-  - docker stop
-  - docker rm [-f]
+  - podman stop
+  - podman rm [-f]
 
 Note:
-docker run -p 3000:3000 -p 3022:22 -v $(pwd)/giteatest:/data gitea/gitea
+podman run -p 3000:3000 -p 3022:22 -v $(pwd)/giteatest:/data gitea/gitea
 
 ---
 
@@ -408,7 +407,7 @@ docker run -p 3000:3000 -p 3022:22 -v $(pwd)/giteatest:/data gitea/gitea
 ## Einblick Umgebungsvariablen
 
 ```shell
-docker run -d \
+podman run -d \
            -e MYSQL_ROOT_PASSWORD=supersicher \
            -e MYSQL_USER=wordpress \
            -e MYSQL_PASSWORD=wordpress \
@@ -417,7 +416,7 @@ docker run -d \
            --name wordpress-database \
            mariadb
 
-docker inspect wordpress-database
+podman inspect wordpress-database
 ```
 
 Note:
@@ -427,7 +426,7 @@ Beispiel environment Variablen an MariaDB zeigen.
 
 ## Übung PostgresDB starten
 
-- Starte einen [postgreSQL](https://hub.docker.com/_/postgres/) Docker-Container mit:
+- Starte einen [postgreSQL](https://hub.docker.com/_/postgres/) Container mit:
   - einer automatisch erstellten Datenbank mit dediziertem Benutzeraccount
   - Umgebungsvariablen
     - POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB
@@ -437,7 +436,7 @@ Beispiel environment Variablen an MariaDB zeigen.
 <iframe class=small width="100%" src="http://localhost:42070?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
-docker run -d \
+podman run -d \
 --name=gitea-database \
 -e POSTGRES_USER=gitea \
 -e POSTGRES_PASSWORD=gitea \
@@ -450,9 +449,9 @@ postgres
 ## Zusammenfassung
 
 - Containernamen
-  - `docker run --name ...`
+  - `podman run --name ...`
 - Environment-Variablen an Container übergeben (-e)
-- `docker inspect`
+- `podman inspect`
 
 ---
 
@@ -466,11 +465,11 @@ postgres
 ## Container verknüpfen
 
 ```shell
-docker run -d --name wordpress-database
+podman run -d --name wordpress-database
            -e MYSQL_ROOT_PASSWORD=supersicher \
            -v /root/examples/mariadb/data:/var/lib/mysql \
            mariadb
-docker run -d --link=wordpress-database -p 8080:80 wordpress
+podman run -d --link=wordpress-database -p 8080:80 wordpress
 ```
 
 <iframe width="100%" src="http://localhost:42080?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -480,7 +479,7 @@ Note:
 Nicht der beste Weg, nur zur Demonstration
 Wordpress-Container starten, mit mysql verknüpfen
 Ziel: Interne Kommunikation zwischen Containern
-docker run --link=wordpress-database -e WORDPRESS_DB_HOST=wordpress-database -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress wordpress
+podman run --link=wordpress-database -e WORDPRESS_DB_HOST=wordpress-database -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress wordpress
 
 ----
 
@@ -495,15 +494,15 @@ docker run --link=wordpress-database -e WORDPRESS_DB_HOST=wordpress-database -e 
 <iframe class="small" src="http://localhost:42090?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
-docker run -d --name=gitea-database -e POSTGRES_USER=gitea -e POSTGRES_PASSWORD=gitea -e POSTGRES_DB=gitea -v /root/examples/gitea/psql/data:/var/lib/postgresql/data postgres
-docker run -d -p 3000:3000 -v /root/examples/gitea/data:/data -p 3000:3000 -p 3022:22 --link=gitea-database gitea/gitea
+podman run -d --name=gitea-database -e POSTGRES_USER=gitea -e POSTGRES_PASSWORD=gitea -e POSTGRES_DB=gitea -v /root/examples/gitea/psql/data:/var/lib/postgresql/data postgres
+podman run -d -p 3000:3000 -v /root/examples/gitea/data:/data -p 3000:3000 -p 3022:22 --link=gitea-database gitea/gitea
 
 ----
 
 ## Kommunikation über Sockets
 
 ```bash
-docker run -d -p 9000:9000 \
+podman run -d -p 9000:9000 \
   -v "/var/run/docker.sock:/var/run/docker.sock" \
   portainer/portainer
 ```
@@ -543,12 +542,12 @@ Ein Image kann verändert werden indem ein oder mehrere Layer hinzugefügt werde
 ## Container und Images
 
 ```shell
-docker run -it ubuntu bash
+podman run -it ubuntu bash
   >> apt-get update
   >> apt-get install -y git
   >> exit
-docker run -it ubuntu git --version
-docker commit <containerid>
+podman run -it ubuntu git --version
+podman commit <containerid>
 ```
 
 <iframe width="100%" src="http://localhost:42110?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -557,34 +556,34 @@ Note:
 Was ist ein Image und was ist ein Container
 Beispiel: git commit
 
-- docker run -it ubuntu -> apt-get update; apt-get install git -y; exit
-- docker run -it ubuntu git --version
+- podman run -it ubuntu -> apt-get update; apt-get install git -y; exit
+- podman run -it ubuntu git --version
 
 Das Selbe nochmal mit commit
 
-- docker image ls
+- podman image ls
 
 ----
 
 ## Zusammenfassung
 
 - Unterschied Container und Images
-- `docker commit`
+- `podman commit`
   - Erstellen eines Images aus einem Container
-- `docker images`
+- `podman images`
   - Anzeigen von Images
 
 ---
 
 # Docker Hub & Registry
 
-- `docker pull`
+- `podman pull`
 - Docker Hub
 - Tags und Versionierung
 
 Note:
 
-- docker pull
+- podman pull
   - Dient zum herunterladen von Images
   - Default regirsty ist docker Hub
   - Tags dienen zur Versionierung
@@ -593,13 +592,13 @@ Note:
 
 ----
 
-## Docker Tags
+## Podman Tags
 
 ```bash
-docker pull nginx
-docker pull nginx:latest
-docker pull nginx:alpine
-docker images
+podman pull nginx
+podman pull nginx:latest
+podman pull nginx:alpine
+podman images
 ```
 
 <iframe width="100%" src="http://localhost:42120?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -620,7 +619,7 @@ Notes:
 Kostenloser Account
 Alle tags sichtbar
 Doku zu Images
-Dockerfiles können (meist) eingesehen werden (link zu Github)
+Containerfiles können (meist) eingesehen werden (link zu Github)
 
 ----
 
@@ -636,10 +635,10 @@ Dockerfiles können (meist) eingesehen werden (link zu Github)
 Note:
 
 - Pullen eines containers
-- docker run -d -p 5000:5000 --restart always registry:2
-- docker pull nginx
-- docker tag nginx localhost:5000/nginx
-- docker push localhost:5000/nginx
+- podman run -d -p 5000:5000 --restart always registry:2
+- podman pull nginx
+- podman tag nginx localhost:5000/nginx
+- podman push localhost:5000/nginx
 
 ----
 
@@ -666,27 +665,27 @@ Beispiel: nginx mit eigener index.html
 
 ```bash
 # bash im nginx Container starten
-docker run --name mynginx-container -d -p 8089:80 nginx
-docker exec -it mynginx-container bash
+podman run --name mynginx-container -d -p 8089:80 nginx
+podman exec -it mynginx-container bash
 # im Container
 echo "<h1>Hello World</h1>" > /usr/share/nginx/html/index.html
 exit
 
 # Neues Image mit Änderungen erstellen
-docker commit mynginx-container mynginx-image
+podman commit mynginx-container mynginx-image
 ```
 
 <iframe class=small width="100%" src="http://localhost:42140?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
-Docker commit erklären mit Überleitung zu Dockerfile
+Container commit erklären mit Überleitung zu Dockerfile
 
 ----
 
 ## Image aus Dockerfile erstellen
 
 ```shell
-# Dockerfile
+# Containerfile
 FROM nginx
 RUN echo "<h1>Hello World from Dockerfile</h1>" > \
     /usr/share/nginx/html/index.html
@@ -694,11 +693,11 @@ RUN echo "<h1>Hello World from Dockerfile</h1>" > \
 
 ```bash
 # Image bauen
-docker build -t mynginx-image:2 .
+podman build -t mynginx-image:2 .
 # Container aus Image (mit CLI erstellt) starten
-docker run -d -p 8081:80 mynginx-image
+podman run -d -p 8081:80 mynginx-image
 # Container aus Image (mit Dockerfile erstellt) starten
-docker run -d -p 8082:80 mynginx-image:2
+podman run -d -p 8082:80 mynginx-image:2
 ```
 
 <iframe class=small width="100%" src="http://localhost:42150?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -722,7 +721,7 @@ https://en.wikipedia.org/wiki/Tantrum
 
 ----
 
-## Docker Base Images
+## Container Base Images
 
 - scratch
   - Ur-Image aller Images
@@ -732,7 +731,7 @@ https://en.wikipedia.org/wiki/Tantrum
   - ca. 4.5MB
 - debian, ubuntu, centos, etc.
   - im Prinzip wie *alpine*
-  - ca 100MB(!) groß
+  - ca 50MB(!) groß
   - viele unnötige Pakete
 
 Note:
@@ -742,15 +741,15 @@ Alpine ist der bevorzugte, da er wesentlich kleiner ist als alle anderen.
 
 ### Zusammenfassung
 
-- Dockerfile
+- Containerfile / Dockerfile
   - FROM
   - COPY
   - RUN
-- Docker CLI
+- Podman CLI
   - docker build -t tag:version .
   - docker commit image tag:version
 - Docker Hub
-- Docker Base images
+- Container Base images
 
 ---
 
@@ -771,7 +770,7 @@ Alpine ist der bevorzugte, da er wesentlich kleiner ist als alle anderen.
 - Exec Syntax im Dockerfile
   - *Keyword*: **ENTRYPOINT**
 
-```dockerfile
+```Containerfile
 # Exec-Form
 ENTRYPOINT ["executable", "param1", "param2"]
 ENTRYPOINT [ "sh", "-c", "echo $HOME" ]
@@ -793,7 +792,7 @@ Using this syntax, Docker will not use a command shell, which means that normal 
 - Gibt es **keinen** *ENTRYPOINT*
   - Dann verhält sich **CMD** wie **ENTRYPOINT**
 
-```dockerfile
+```Containerfile
 # exec form, this is the preferred form
 CMD ["executable","param1","param2"]
 
@@ -827,17 +826,17 @@ CMD command param1 param2
 
 ----
 
-## Docker CLI
+## Podman CLI
 
 Alles hinter dem Image beim Befehl `docker run` überchreibt CMD.
 Der Entrypoint ist überschreibbar mit --entrypoint
 
 ```bash
 # überschreiben des CMD
-docker run alpine ls
+podman run alpine ls
 
 # überschreiben des Entrypoints (keine Shell Form)
-docker run  --entrypoint='/bin/false' alpine
+podman run  --entrypoint='/bin/false' alpine
 ```
 
 ----
@@ -852,14 +851,14 @@ CMD [ "-jar", "app.jar" ]
 ```
 
 ```bash
-docker run myapp -Xms512m -jar app.jar
+podman run myapp -Xms512m -jar app.jar
 # java -Xms512m -jar app.jar
 ```
 ----
 
 ## Zusammenfassung
 
-- Dockerfile
+- Containerfile
   - ENTRYPOINT
   - CMD
 - Unterschiede ENTRYPOINT CMD
@@ -867,7 +866,7 @@ docker run myapp -Xms512m -jar app.jar
 
 ---
 
-# docker-compose
+# Kubernetes
 
 - Einstieg in `docker-compose`
 - Generelle Bedienung von *docker-compose*
@@ -875,7 +874,7 @@ docker run myapp -Xms512m -jar app.jar
 
 ----
 
-## Was ist *docker-compose*
+## Was ist *kubernetes*
 
 *docker-compose* ist ein Tool zur vereinfachten Abbildung und Verwaltung von Multi-Container Applikationen.
 
