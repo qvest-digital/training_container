@@ -1,13 +1,13 @@
-FROM alpine:3.17
+FROM quay.io/podman/stable
 
-RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && apk --no-cache add --no-cache shadow fuse-overlayfs podman curl bash vim shellinabox@testing \
-    ;
+RUN dnf -y update \
+ && dnf -y install curl vim shellinabox \
+ && dnf clean all
 
 RUN echo 'export PS1="\w \$ "' >> /root/.bashrc
-RUN echo 'usermod --add-subuids 200000-201000 --add-subgids 200000-201000 root' >> /root/.bashrc
-
 RUN echo "set bg=dark" > /root/.vimrc
+
+#RUN usermod --add-subuids 200000-201000 --add-subgids 200000-201000 root
 
 ADD styles.css /data/
 
