@@ -12,7 +12,6 @@ services:
     image: local/shellinabox
     volumes:
       - ./examples:/root/examples
-      - docker-certs-client:/certs/client:ro
     networks:
       default:
         aliases:

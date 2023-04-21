@@ -11,7 +11,7 @@ html * {
  *********************************************/
 body {
     background-color: #fff;
-    background-image: url('images/docker_bg.png');
+    #background-image: url('images/docker_bg.png');
     background-position: center;
     background-size: 100% auto;
     background-repeat: no-repeat;
@@ -71,12 +71,22 @@ body {
  *********************************************/
 .reveal h1,
 .reveal h2,
-.reveal h3,
+.reveal h3 {
+    margin: 0 0 20px 0;
+    color: #8e32a5;
+    font-family: "Oswald", Impact, sans-serif;
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    word-wrap: break-word;
+}
+
 .reveal h4,
 .reveal h5,
 .reveal h6 {
     margin: 0 0 20px 0;
-    color: #47d;
+    color: #575a5a;
     font-family: "Oswald", Impact, sans-serif;
     font-weight: normal;
     line-height: 1.2;
@@ -162,7 +172,8 @@ body {
     height: 24px;
     width: 32px;
     margin-right: 10px;
-    background-image: url('images/docker-brands.svg');
+    background-image: url('images/podman.svg');
+    background-repeat: no-repeat;
 }
 
 .reveal ul ul,
@@ -330,7 +341,7 @@ body {
  * NAVIGATION CONTROLS
  *********************************************/
 .reveal .controls {
-    color: #47d;
+    color: #8e32a5;
 }
 
 /*********************************************
