@@ -1,17 +1,23 @@
 FROM quay.io/podman/stable
 
 RUN dnf -y update \
- && dnf -y install curl vim shellinabox \
+ && dnf -y install vim shellinabox \
  && dnf clean all
 
 RUN echo 'export PS1="\w \$ "' >> /root/.bashrc
 RUN echo "set bg=dark" > /root/.vimrc
+
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN mv kubectl /usr/bin/kubectl
+RUN chmod +x /usr/bin/kubectl
 
 #RUN usermod --add-subuids 200000-201000 --add-subgids 200000-201000 root
 
 ADD styles.css /data/
 
 COPY dbash /usr/local/bin/dbash
+
+
 
 EXPOSE 4200
 
