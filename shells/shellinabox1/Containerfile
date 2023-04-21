@@ -1,14 +1,10 @@
-FROM docker:latest
+FROM alpine:3.17
 
-ARG GATEWAY
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && apk update \
-    && apk add --no-cache docker-compose curl bash vim shellinabox@testing
+    && apk --no-cache add --no-cache podman curl bash vim shellinabox@testing \
+    ;
 
 RUN echo 'export PS1="\w \$ "' >> /root/.bashrc
-RUN echo "alias dps='docker ps --format \"table {{.ID}}\\t{{.Image}}\\t{{.Status}}\\t{{.Ports}}\\t{{.Names}}\"'" >> /root/.bashrc
-RUN echo "alias dpss='docker ps --format \"table {{.ID}} {{.Image}}\\t{{.Status}}\\t{{.Ports}}\\t{{.Names}}\"'" >> /root/.bashrc
-RUN echo "alias dockerps='docker ps --format \"table {{.ID}}\\t{{.Image}}\\t{{.Status}}\\t{{.Ports}}\\t{{.Names}}\"'" >> /root/.bashrc
 RUN echo "set bg=dark" > /root/.vimrc
 
 ADD styles.css /data/
