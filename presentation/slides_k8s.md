@@ -869,6 +869,80 @@ podman run myapp -Xms512m -jar app.jar
 
 ---
 
+# Kubernetes
+
+- Einstieg in `kubectl`
+- Generelle Bedienung von *kubectl*
+
+----
+
+## Was ist *kubernetes*
+
+*docker-compose* ist ein Tool zur vereinfachten Abbildung und Verwaltung von Multi-Container Applikationen.
+
+Es ist in Python geschrieben und kommuniziert über die Docker API.
+
+Note:
+Example: wordpress mit postgresql
+Ziel: beide versionen basiern auf yml syntax
+Ziel: Vereinfachung von docker cli
+
+----
+
+## docker-compose Beispiel
+
+```yaml
+version: "2.2"
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - "8080:80"
+  wordpress-database:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD: supersicher
+      - MYSQL_USER: wordpress
+      - MYSQL_PASSWORD: wordpress
+      - MYSQL_DATABASE: wordpress
+    volumes:
+      - /root/examples/wordpress/maria/data:/var/lib/mysql
+```
+
+----
+
+## docker-compose Befehle
+
+```shell
+docker-compose up -d
+docker-compose stop
+docker-compose rm
+```
+
+<iframe width="100%" src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+
+## Übung
+
+- Stoppe und lösche deine vorrangegangen Container ohne Nutzdatenverlust.
+- Erstelle eine docker-compose.yml in der [gitea](https://hub.docker.com/r/gitea/gitea/) und mariadb als Services beschrieben sind.
+  - Stelle sicher das alle Volumes und Ports erhalten bleiben.
+- Lagere das Daten-Verzeichnis von gitea auf deinen Computer aus.
+
+----
+
+## Zusamenfassung
+
+- *docker-compose* Files
+- *docker-compose* CLI
+  - up
+  - stop
+  - rm
+  - logs
+
+---
+
 # Image-Layer
 
 - Was sind Layer?
@@ -941,7 +1015,7 @@ RUN apt-get clean
   - ENTRYPOINT nicht überschreibbar
 - HEALTHCHECK
 
----
+----
 
 # Multi-Stage-Builds
 
