@@ -6,12 +6,12 @@ services:
     ports:
       - "127.0.0.1:8123:1948"
     volumes:
-      - ${PWD}/presentation:/reveal
+      - ${PWD}/presentation:/reveal:Z
     init: true
   shell_0: &build
     image: local/shellinabox
     volumes:
-      - ./examples:/root/examples
+      - ./examples:/root/examples:Z
       - $HOME/.kube/config:/root/.kube/config:ro
     build:
       context: shells/shellinabox1
