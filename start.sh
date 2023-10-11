@@ -2,7 +2,7 @@
 
 set -eEo pipefail
 
-podman-compose down 
+podman-compose down
 
 podman build shells/shellinabox1 -t local/shellinabox
 

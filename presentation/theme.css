@@ -11,7 +11,7 @@ html * {
  *********************************************/
 body {
     background-color: #fff;
-    #background-image: url('images/docker_bg.png');
+    /*background-image: url('images/docker_bg.png');*/
     background-position: center;
     background-size: 100% auto;
     background-repeat: no-repeat;
@@ -25,7 +25,7 @@ body {
 }
 
 .reveal:before {
-    content: 'https://github.com/tarent/training_docker | v.schmitz@tarent.de | d.zerlett@tarent.de';
+    content: 'https://github.com/tarent/training_docker';
     position: absolute;
     height: 60px;
     bottom: 11px;
