@@ -186,7 +186,7 @@ Note:
 1. Starte eine Gitea kompatible Datenbank im selben Pod
 1. Configuriere die Datenbank und Gitea mittels `spec.env`
 
-TODO: Docu link
+[Kubernetes Docs](https://kubernetes.io/)
 
 ----
 
@@ -219,7 +219,6 @@ Note:
 
 ---
 
-
 # Kubernetes ConfigMaps & Secrets
 
 Anlegen einer Configmap
@@ -230,9 +229,16 @@ kubectl apply -f example/k3s/gitea/secrets.yml
 
 ```
 
-
 Note:
   - Ziel: Konfiguriere Database mit PW als Secret
+
+## Kubernetes ConfigMaps & Secrets - &Uuml;bung
+
+1. Configuriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
+1. Erweitere daf&uuml;r die erstellte Configmaps.
+
+[Gitea Docs](https://docs.gitea.com/)
+
 ---
 
 # Kubernetes Deployments
