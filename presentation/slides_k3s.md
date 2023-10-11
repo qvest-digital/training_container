@@ -44,34 +44,17 @@ Regeln:
 
 ----
 
-## Themen
-
-- Überblick
-- Kubernetes Resources
-- Grundlagen Kubectl CLI
-- Deepdive kubectl CLI
-- Kubernetes hilfreiche Tools
-
----
-
 # Einführung in Kubernetes auf Basis von k3s
 
  - Schulung für grundlegende Kenntnisse über Kubernetes
  - Fokus auf Einführung in Kubernetes und wichtige Konzepte
  - Praktisches Beispiel: Bereitstellung von Gitea mit PostgreSQL in Kubernetes
 
----
+----
 
 ## Inhaltsverzeichnis
 
-- Was ist Kubernetes?
-- Warum Kubernetes verwenden?
-- Architektur von Kubernetes
-- Kubernetes-Begriffe
-- Kubernetes-Ressourcen definieren
-- Praktisches Beispiel: Bereitstellung von Gittea mit PostgreSQL
-- Überwachung und Skalierung in Kubernetes
-- Abschluss und Ausblick
+TBD
 
 ---
 
@@ -84,7 +67,7 @@ Regeln:
  - Einblick in die Kubernetes Distributionen
  - Erweiterbarkeit
 
----
+----
 
 ## Architektur von Kubernetes
 
@@ -94,7 +77,7 @@ Regeln:
 - etcd
 - Weitere Komponenten
 
----
+----
 
 ## Architektur Unterschied zu k3s
 
@@ -102,7 +85,7 @@ Regeln:
 
 ---
 
-## Basis Ressourcen I
+## Basis Ressourcen
 
 - Pods
 - Services
@@ -305,22 +288,29 @@ Notes:
   - replicaset
 
 ---
-
-# Kubernetes Statefullsets
-
----
-
-# Kubernetes Daemonset
-
----
 # Kubernetes Namespaces
 
 ---
-
-
-# Einblick in Kustomize
+# Optional: Kubernetes Statefullsets
 
 ---
+
+# Optional: Kubernetes Daemonset
+
+
+---
+
+# Optional: Einblick in Kustomize
+
+
+---
+
+## Optional: Praktische Tools
+
+ - [k9s](https://k9scli.io/)
+ - [kubectx / kubens](https://github.com/ahmetb/kubectx)
+ - [popeye](https://github.com/derailed/popeye)
+
 
 ---
 
@@ -332,15 +322,6 @@ Notes:
 - Controller / Operator
   - CustomResources
 - Kubernetes unter der Haube
-
----
-
-## Praktische Tools
-
- - [k9s](https://k9scli.io/)
- - [kubectx / kubens](https://github.com/ahmetb/kubectx)
- - [popeye](https://github.com/derailed/popeye)
-
 
 ---
 
