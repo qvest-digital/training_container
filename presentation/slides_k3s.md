@@ -183,8 +183,10 @@ Note:
 
 1. Nutze einen versionierten Tag oder HASH für das Image (nicht latest!)
 1. L&ouml;sche den erstellten Pod wieder.
-1. Starte eine Gitea kompatible Datenbank im selben Pod
-1. Configuriere die Datenbank und Gitea mittels `spec.env`
+1. Starte eine Gitea mit MariaDB im selben Pod
+
+Zusatzaufgabe:
+1. Konfiguriere die Datenbank und Gitea mittels `spec.containers.*.env`
 
 [Kubernetes Docs](https://kubernetes.io/)
 
@@ -200,6 +202,7 @@ Note:
 
 - Einblick in kubernetes yaml files
 - Pod Verwaltung
+- Pod Environment
 - Grundlagen `kubectl`
   - apply / delete
   - describe
@@ -234,7 +237,7 @@ Note:
 
 ## Kubernetes ConfigMaps & Secrets - &Uuml;bung
 
-1. Configuriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
+1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
 1. Erweitere daf&uuml;r die erstellte Configmaps.
 
 [Gitea Docs](https://docs.gitea.com/)
@@ -253,43 +256,29 @@ Note:
 
 ---
 
-# Kubernetes Hardening
 
-
----
-
-# Kubernetes LoadBalancing
+# Einblick in Kustomize
 
 ---
-<!----
 
-## Fragen
-
-### 1. In welchem Namespace wurde der Pod erstellt?
-
-Analysiere hierzu die Ausgabe von `kubectl describe pods/aufgabe03-nginx`.
-
-### 2. Wie kannst Du den Namespace in dem der Pod erstellt wird, ändern?
-
-## Abschluss
-
-### 1. Lösche alle nginx Pods in allen Namespaces, die Du angelegt hat.
-
-```sh
-kubectl get pods --all-namespaces
-kubectl get pods -A
-```
-
---->
 
 ----
 
+# Ausblick
+
+- Kubernetes Hardening-
+- Kubernetes LoadBalancing
+- Controller / Operator
+  - CustomResources
+- Kubernetes unter der Haube
+
+---
+
 ## Praktische Tools
 
- - k9s
- - kustomize
- - kubectx / kubens
- - popeye
+ - [k9s](https://k9scli.io/)
+ - [kubectx / kubens](https://github.com/ahmetb/kubectx)
+ - [popeye](https://github.com/derailed/popeye)
 
 ---
 
