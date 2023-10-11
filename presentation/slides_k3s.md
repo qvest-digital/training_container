@@ -113,6 +113,7 @@ Regeln:
 # Kubernetes Pods
 
 - Was ist ein Pod?
+
 ----
 
 ## Kubernetes Pods - apply
@@ -179,7 +180,7 @@ Note:
 
 ----
 
-## Kubernetes Pods - &Uuml;bung
+## Kubernetes Pods - HandsOn
 
 1. Nutze einen versionierten Tag oder HASH für das Image (nicht latest!)
 1. L&ouml;sche den erstellten Pod wieder.
@@ -192,7 +193,7 @@ Zusatzaufgabe:
 
 ----
 
-## Kubernetes Pods - &Uuml;bung
+## Kubernetes Pods - HandsOn
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -212,6 +213,19 @@ Zusatzaufgabe:
 
 # Kubernetes Labels & Annotations
 
+- Wozu sind Labels und Annotations gut?
+- Wie erstellt man labels.
+
+----
+
+# Kubernetes Labels und Annotations - HandsOn
+
+- Schaue Dir die Labels von Gitea an
+  - `kubectl get pods --show-labels`
+- Lass Dir Pods anhand von ausgesuchten Labels anzeigen
+  - `kubectl get pods -l`
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
   - annotation
@@ -220,8 +234,41 @@ Note:
 
 # Kubernetes Services
 
----
+- Einblick in Services
 
+----
+
+## Kubernetes Services - HandsOn
+
+Erstelle einen Separaten MariaDB Pod mit einem vorgeschalteten Service
+
+```sh
+kubectl apply -f ./basic_mariadb_service.yaml
+```
+
+- Schaue Dir Service und Pod mit kubectl describe an
+- Nutze kubectl port-forward, um den Pod über den Service anzusprechen
+- Verbinde Gitea mit dem separaten MariaDB Pod
+
+**ACHTUNG**: Das funktioniert in der Praxis nicht so, wie man es erwartet!
+
+----
+
+## Kubernetes Services - HandsOn
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+## Kubernetes Services - HandsOn
+
+- Was ist der Unterschied zwischen den verschiedenen service types?
+- Wozu dienen die Selectors der Services?
+- Was passiert, wenn zwei Services die gleichen Pods selektieren?
+- Was passiert, wenn ein Service unterschiedliche Pods selektiert?
+- Wie kann man überprüfen, welche Pods ein Service selektiert?
+- Wie können Pods mit Hilfe von Services miteinander kommunizieren?
+
+---
 # Kubernetes ConfigMaps & Secrets
 
 Anlegen einer Configmap
@@ -235,16 +282,27 @@ kubectl apply -f example/k3s/gitea/secrets.yml
 Note:
   - Ziel: Konfiguriere Database mit PW als Secret
 
-## Kubernetes ConfigMaps & Secrets - &Uuml;bung
+## Kubernetes ConfigMaps & Secrets - HandsOn
 
 1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
 1. Erweitere daf&uuml;r die erstellte Configmaps.
 
 [Gitea Docs](https://docs.gitea.com/)
 
----
+----
+## Kubernetes ConfitMap & Secrets - HandsOn
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+# Kubernetes Simple Persistance
+
+- PersistanceVolumes
+- PersistanceVolumesClaims
 
 # Kubernetes Deployments
+
+Notes:
+  - replicaset
 
 ---
 
@@ -252,6 +310,9 @@ Note:
 
 ---
 
+# Kubernetes Daemonset
+
+---
 # Kubernetes Namespaces
 
 ---
@@ -261,12 +322,12 @@ Note:
 
 ---
 
-
-----
+---
 
 # Ausblick
 
-- Kubernetes Hardening-
+- Lifecycle und Lifecycle Management
+- Kubernetes Hardening
 - Kubernetes LoadBalancing
 - Controller / Operator
   - CustomResources
@@ -280,8 +341,7 @@ Note:
  - [kubectx / kubens](https://github.com/ahmetb/kubectx)
  - [popeye](https://github.com/derailed/popeye)
 
+
 ---
 
-## Abschluss und Ausblick
-
-Zum Abschluss werden wir eine Zusammenfassung der behandelten Themen geben und einen Ausblick auf weiterführende Schritte und Ressourcen geben, um Ihr Wissen über Kubernetes zu vertiefen.
+# Ende
