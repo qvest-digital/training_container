@@ -1,20 +1,30 @@
-version: "2.2"
+version: "3.8"
 
 services:
+
   reveal:
-    build: .
+    image: docker.io/webpronl/reveal-md:5.5.1
+    hostname: reveal
+    domainname: workshop.local
+    privileged: false
+    cpus: 0.5
     ports:
       - "127.0.0.1:8123:1948"
     volumes:
-      - ${PWD}/presentation:/reveal:Z
+      - ${PWD}/presentation:/slides:Z
     init: true
-  shell_0: &build
-    image: local/shellinabox
+
+  shell_0:
+    image: localhost/shellinabox:latest
+    hostname: shell
+    domainname: workshop.local
+    cpus: 0.5
     volumes:
       - ./examples:/root/examples:Z
       - $HOME/.kube/config:/root/.kube/config:ro
     build:
-      context: shells/shellinabox1
+      context: ./shells/shellinabox1
+      dockerfile: Containerfile
     privileged: true
     network_mode: host
 
