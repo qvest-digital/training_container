@@ -12,6 +12,9 @@ services:
       - "127.0.0.1:8123:1948"
     volumes:
       - ${PWD}/presentation:/slides:Z
+    command:
+    - /slides
+    - --theme="theme.css"
     init: true
 
   shell_0:
