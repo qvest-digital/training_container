@@ -7,7 +7,7 @@ revealOptions:
 # Container mit Podman
 
 <div id="header-footer">
-  <p class="slide-footer"><img src="images/light.svg" height="40" width="200"><br>tarent solutions GmbH<br>Volker Schmitz & Daniel Zerlett</p>
+  <p class="slide-footer"><img src="images/qvest/logo-black.svg" height="40" width="200"><br>tarent solutions GmbH<br>Volker Schmitz & Daniel Zerlett</p>
 </div>
 
 ----

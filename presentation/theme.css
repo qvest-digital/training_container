@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald:400,700&subset=latin-ext');
 @import url('https://fonts.googleapis.com/css?family=Abel:200,400&subset=latin-ext');
 
+:root {
+    --qvest-orange: #ff8800;
+}
+
 html * {
     color-profile: sRGB;
     rendering-intent: auto;
@@ -36,13 +40,14 @@ body {
 }
 
 .reveal:after {
-    background-image: url('images/pfeil.svg');
+    background-image: url('images/qvest/q-48x48.png');
     background-position: left top;
     background-size: auto 50px;
     background-repeat: no-repeat;
     content: '';
     position: absolute;
-    height: 50px;
+    height: 48px;
+    width: 48px;
     bottom: 35px;
     padding-left: 200px;
     left: 20px;
@@ -73,7 +78,7 @@ body {
 .reveal h2,
 .reveal h3 {
     margin: 0 0 20px 0;
-    color: #8e32a5;
+    color: var(--qvest-orange);
     font-family: "Oswald", Impact, sans-serif;
     font-weight: normal;
     line-height: 1.2;
@@ -160,20 +165,6 @@ body {
 
 .reveal ol {
     list-style-type: decimal;
-}
-
-.reveal ul {
-    list-style: none;
-}
-
-.reveal ul li:before {
-    content: '';
-    display: inline-block;
-    height: 24px;
-    width: 32px;
-    margin-right: 10px;
-    background-image: url('images/podman.svg');
-    background-repeat: no-repeat;
 }
 
 .reveal ul ul,
@@ -341,7 +332,7 @@ body {
  * NAVIGATION CONTROLS
  *********************************************/
 .reveal .controls {
-    color: #8e32a5;
+    color: var(--qvest-orange);
 }
 
 /*********************************************
@@ -411,4 +402,11 @@ table.epcmd td {
 
 table.epcmd td.fat {
     font-weight: bold;
+}
+
+.k8s-icon-large-centered {
+    width:128px;
+    height: 128px;
+    display: inline-block;
+    vertical-align: middle;
 }

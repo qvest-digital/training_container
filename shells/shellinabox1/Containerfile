@@ -1,7 +1,9 @@
 FROM quay.io/podman/stable
 
+# Install some useful CLI utilities (ncurses provide "clear", vim is our
+# editor of choice and shellinabox is required to provide a in-browser-terminal experience)
 RUN dnf -y update \
- && dnf -y install vim shellinabox \
+ && dnf -y install jq ncurses shellinabox vim \
  && dnf clean all
 
 RUN echo 'export PS1="\w \$ "' >> /root/.bashrc
@@ -16,8 +18,6 @@ RUN chmod +x /usr/bin/kubectl
 ADD styles.css /data/
 
 COPY dbash /usr/local/bin/dbash
-
-
 
 EXPOSE 4200
 
