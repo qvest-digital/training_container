@@ -355,7 +355,7 @@ Note:
 - PersistanceVolumes
 - PersistanceVolumesClaims
 
-# Kubernetes Deployments
+# Kubernetes Deployments & ReplicaSets
 
 Notes:
   - replicaset
