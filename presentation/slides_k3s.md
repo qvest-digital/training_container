@@ -156,7 +156,7 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 <div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
 
-<strong>Was ist ein Pod?</strong>
+**Was ist ein Pod?**
 
 <q cite="https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod">Pods are herds of marine mammals including whales, dolphins, walruses and seals.</q>
 (Source: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod))
