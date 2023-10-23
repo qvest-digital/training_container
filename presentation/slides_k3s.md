@@ -103,7 +103,7 @@ TBD
 
 ## kubectl
 
-unser Tool für den Hands-on Workshop
+Unser Tool für den Hands-on Workshop
 
 <div><img src="./images/kubectl-logo/kubectl-logo-full.png" style="width: 256px; height: 256px;"></div>
 
