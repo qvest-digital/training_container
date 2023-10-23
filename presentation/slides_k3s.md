@@ -7,7 +7,7 @@ revealOptions:
 # Container mit kubernetes
 
 <div id="header-footer">
-  <p class="slide-footer"><img src="images/light.svg" height="40" width="200"><br>Qvest Digital AG<br></p>
+  <p class="slide-footer"><img src="images/qvest/logo-orange.svg" height="64"><br>Qvest Digital AG<br></p>
 </div>
 
 ----
@@ -60,7 +60,7 @@ TBD
 
 ## Was ist Kubernetes?
 
- - Orchestrierungssystem
+ - Orchestrierungssystem (nicht nur) für Container
  - Open Source
  - Verwaltung, Bereitstellung und Skalierung von Anwendungen
  - Deklarative Konfiguration
@@ -69,7 +69,19 @@ TBD
 
 ----
 
-## Architektur von Kubernetes
+### "Griechische Seefahrer"
+
+  - Kubernetes ist das griechische Wort für „Steuermann“
+  - Viele Kubernetes-nahe Projekte nutzen griechische Begriffe
+    und/oder Worte mit nautischem Ursprung
+
+    Beispiele: Helm (Steuerrad), Popeye (der Spinat-essende Seemann)
+
+    K8S: K + 8 Buchstaben + N = Kubernetes
+
+----
+
+### Architektur von Kubernetes
 
 - Master-Knoten
 - Worker-Knoten
@@ -79,9 +91,56 @@ TBD
 
 ----
 
-## Architektur Unterschied zu k3s
+### Architektur Unterschied zu k3s
 
-- Unterschiede
+- (Opininated) Kubernetes ohne Bloat
+- Aussprache: keez / keys (?)
+- CRI: containerd, CNI: flannel
+- SQlite statt etcd als backend storage
+- Traefik als Ingress Controller
+
+---
+
+## kubectl
+
+Unser Tool für den Hands-on Workshop
+
+<div><img src="./images/kubectl-logo/kubectl-logo-full.png" style="width: 256px; height: 256px;"></div>
+
+... und wer ist eigentlich <q cite="https://groups.google.com/g/kubernetes-sig-cli/c/M6t40JP6n0g/m/U6Snz-bsFQAJ">kube-cuttle</q>?
+
+----
+
+### kubectl - Funktionstests
+
+```sh
+kubectl version
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+Note:
+  kubectl cluster-info ausführen und damit Funktionsweise von k3s überprüfen evtl.?
+
+----
+
+### Autocomplete für kubectl
+
+- bash:
+  ```bash
+  echo "source <(kubectl completion bash)" >> ~/.bashrc
+  ```
+- zsh:
+  ```zsh
+  echo '[[ $commands[kubectl] ]]' \
+  '&& source <(kubectl completion zsh)' >> ~/.zshrc
+  ```
+- fish:
+  ```fish
+  echo 'kubectl completion fish | source' >> ~/.config/fish/config.fish
+  ```
+
+Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete)
 
 ---
 
@@ -95,7 +154,12 @@ TBD
 
 # Kubernetes Pods
 
-- Was ist ein Pod?
+<div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
+
+**Was ist ein Pod?**
+
+<q cite="https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod">Pods are herds of marine mammals including whales, dolphins, walruses and seals.</q>
+(Source: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod))
 
 ----
 
@@ -112,6 +176,13 @@ kubectl apply -f ./examples/k3s/gitea/basic_pod.yaml
 ----
 
 ## Kubernetes Pods - describe
+
+
+```sh
+kubectl describe pods/gitea | less
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
 
@@ -163,10 +234,10 @@ Note:
 
 ----
 
-## Kubernetes Pods - HandsOn
+## Kubernetes Pods - Hands-on
 
 1. Nutze einen versionierten Tag oder HASH für das Image (nicht latest!)
-1. L&ouml;sche den erstellten Pod wieder.
+1. Lösche den erstellten Pod wieder.
 1. Starte eine Gitea mit MariaDB im selben Pod
 
 Zusatzaufgabe:
@@ -176,7 +247,7 @@ Zusatzaufgabe:
 
 ----
 
-## Kubernetes Pods - HandsOn
+## Kubernetes Pods - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -184,7 +255,7 @@ Zusatzaufgabe:
 
 ## Kubernetes Pods - Zusammenfassung
 
-- Einblick in kubernetes yaml files
+- Einblick in kubernetes YAML files
 - Pod Verwaltung
 - Pod Environment
 - Grundlagen `kubectl`
@@ -201,7 +272,7 @@ Zusatzaufgabe:
 
 ----
 
-# Kubernetes Labels und Annotations - HandsOn
+# Kubernetes Labels und Annotations - Hands-on
 
 - Schaue Dir die Labels von Gitea an
   - `kubectl get pods --show-labels`
@@ -217,11 +288,13 @@ Note:
 
 # Kubernetes Services
 
-- Einblick in Services
+<div><img src="./images/k8s-icons/resources/labeled/svc.svg" class="k8s-icon-large-centered"></div>
+
+- Was ist ein Service?
 
 ----
 
-## Kubernetes Services - HandsOn
+## Kubernetes Services - Hands-on
 
 Erstelle einen Separaten MariaDB Pod mit einem vorgeschalteten Service
 
@@ -233,19 +306,19 @@ kubectl apply -f ./basic_mariadb_service.yaml
 - Nutze kubectl port-forward, um den Pod über den Service anzusprechen
 - Verbinde Gitea mit dem separaten MariaDB Pod
 
-**ACHTUNG**: Das funktioniert in der Praxis nicht so, wie man es erwartet!
+**ACHTUNG**: Port-forwarding funktioniert in der Praxis nicht so, wie man es erwartet!
 
 ----
 
-## Kubernetes Services - HandsOn
+## Kubernetes Services - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
-## Kubernetes Services - HandsOn
+## Kubernetes Services - Hands-on
 
-- Was ist der Unterschied zwischen den verschiedenen service types?
-- Wozu dienen die Selectors der Services?
+- Was ist der Unterschied zwischen den verschiedenen Service-Typen?
+- Wozu dienen die Selektoren der Services?
 - Was passiert, wenn zwei Services die gleichen Pods selektieren?
 - Was passiert, wenn ein Service unterschiedliche Pods selektiert?
 - Wie kann man überprüfen, welche Pods ein Service selektiert?
@@ -265,7 +338,7 @@ kubectl apply -f example/k3s/gitea/secrets.yml
 Note:
   - Ziel: Konfiguriere Database mit PW als Secret
 
-## Kubernetes ConfigMaps & Secrets - HandsOn
+## Kubernetes ConfigMaps & Secrets - Hands-on
 
 1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
 1. Erweitere daf&uuml;r die erstellte Configmaps.
@@ -273,7 +346,7 @@ Note:
 [Gitea Docs](https://docs.gitea.com/)
 
 ----
-## Kubernetes ConfitMap & Secrets - HandsOn
+## Kubernetes ConfitMap & Secrets - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -290,12 +363,64 @@ Notes:
 ---
 # Kubernetes Namespaces
 
+- "Cluster im Cluster"
+- Viele Möglichkeiten:
+  - Ein Namespace pro fachlicher Domäne
+  - Ein Namespace pro Team
+  - Ein Namespace pro Service
+  - ...
+
+----
+
+## Initial Namespaces
+
+- default
+- kube-node-lease
+- kube-public
+- kube-system
+
+([Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#initial-namespaces))
+
+----
+
+## Namespaces auflisten
+
+```shell
+kubectl get namespaces
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+Note:
+  kubectl get ns
+
+----
+
+## Welchen Namespace nutze ich?
+
+```shell
+kubectl config view --minify | less
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
 ---
-# Optional: Kubernetes Statefullsets
+# Kurzes Intermezzo: K8S-Abkürzungen
+
+- Pod: po
+- Service: svc
+- ConfigMap: cm
+- Namespace: ns
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+
+---
+# Optional: Kubernetes StatefulSet
 
 ---
 
-# Optional: Kubernetes Daemonset
+# Optional: Kubernetes DaemonSet
 
 
 ---

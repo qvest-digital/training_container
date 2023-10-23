@@ -4,23 +4,24 @@ services:
 
   reveal:
     image: docker.io/webpronl/reveal-md:5.5.1
-    hostname: reveal
-    domainname: workshop.local
     privileged: false
     cpus: 0.5
     ports:
-      - "127.0.0.1:8123:1948"
+      - "8123:1948"
     volumes:
       - ${PWD}/presentation:/slides:Z
     command:
     - /slides
     - --theme="theme.css"
+    - --port="1948"
+    - --title="Workshop"
+    - --watch
+    - --disable-auto-open
     init: true
+    labels: {}
 
-  shell_0:
+  shell:
     image: localhost/shellinabox:latest
-    hostname: shell
-    domainname: workshop.local
     cpus: 0.5
     volumes:
       - ./examples:/root/examples:Z
@@ -30,4 +31,4 @@ services:
       dockerfile: Containerfile
     privileged: true
     network_mode: host
-
+    labels: {}
