@@ -328,7 +328,7 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 # Kubernetes ConfigMaps & Secrets
 
-Anlegen einer Configmap
+Anlegen einer ConfigMap
 
 ```sh
 kubectl apply -f examples/k3s/gitea/configmap.yml
