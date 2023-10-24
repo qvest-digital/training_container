@@ -407,7 +407,7 @@ Note:
 
 ## Kubernetes Namespaces Hands-On
 
-Weclhen Namespace nutze du?
+Welchen Namespace nutzt du?
 
 ```shell
 kubectl config view --minify | less
