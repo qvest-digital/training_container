@@ -325,11 +325,12 @@ kubectl apply -f ./basic_mariadb_service.yaml
 - Wie können Pods mit Hilfe von Services miteinander kommunizieren?
 
 ---
+
 # Kubernetes ConfigMaps & Secrets
 
-Anlegen einer Configmap
+Anlegen einer ConfigMap
 
-```
+```sh
 kubectl apply -f examples/k3s/gitea/configmap.yml
 kubectl apply -f example/k3s/gitea/secrets.yml
 
@@ -346,7 +347,8 @@ Note:
 [Gitea Docs](https://docs.gitea.com/)
 
 ----
-## Kubernetes ConfitMap & Secrets - Hands-on
+
+## Kubernetes ConfigMaps & Secrets - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -361,8 +363,28 @@ Notes:
   - replicaset
 
 ---
+
 # Kubernetes Namespaces
 
+- Kubernetes verwendet Namespaces, um Ressourcen innerhalb eines Clusters zu isolieren.
+- Die Namen von Ressourcen müssen innerhalb eines Namespaces eindeutig sein, aber nicht über Namespaces hinweg.
+- Die Namespace-basierte Begrenzung gilt nur für namespaced Objekte
+  - (z.B. Deployments, Services)
+  - nicht für clusterweite Objekte (z.B. StorageClass, Nodes, PersistentVolumes).
+
+
+----
+
+## Kubernetes Namespaces
+
+```sh
+kubectl get namespace
+kubectl namespace create gitea
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+Note:
 - "Cluster im Cluster"
 - Viele Möglichkeiten:
   - Ein Namespace pro fachlicher Domäne
@@ -372,7 +394,7 @@ Notes:
 
 ----
 
-## Initial Namespaces
+## Kubernetes Namespaces - Defaults
 
 - default
 - kube-node-lease
@@ -383,20 +405,9 @@ Notes:
 
 ----
 
-## Namespaces auflisten
+## Kubernetes Namespaces Hands-On
 
-```shell
-kubectl get namespaces
-```
-
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
-
-Note:
-  kubectl get ns
-
-----
-
-## Welchen Namespace nutze ich?
+Welchen Namespace nutzt du?
 
 ```shell
 kubectl config view --minify | less
@@ -405,7 +416,18 @@ kubectl config view --minify | less
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ---
-# Kurzes Intermezzo: K8S-Abkürzungen
+
+## Kubernetss Namespaces Hands-On
+
+- Verschiebe deine Gitea Application in den Namespace SVC.
+- Entferne deine vorhereige Application
+  - in welchem Namespace befand sie sich?
+- Benutze den `namespace` paramether in deiner YML.
+
+
+----
+
+# Kuberentes Intermezzo: K8S-Abkürzungen
 
 - Pod: po
 - Service: svc
@@ -416,6 +438,7 @@ kubectl config view --minify | less
 
 
 ---
+
 # Optional: Kubernetes StatefulSet
 
 ---
