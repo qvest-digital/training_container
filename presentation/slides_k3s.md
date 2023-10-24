@@ -348,7 +348,7 @@ Note:
 
 ----
 
-## Kubernetes ConfitMap & Secrets - Hands-on
+## Kubernetes ConfigMaps & Secrets - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
