@@ -1,0 +1,10 @@
+.idea/
+*.iml
+examples/mariadb/*
+node_modules/
+/.vscode/settings.json
+
+nohup.out
+*~
+*.old
+*.bak

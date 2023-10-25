@@ -2,6 +2,7 @@
 
 set -eEo pipefail
 
-podman-compose down
-podman-compose up --build -d --remove-orphans
+compose_cmd=${COMPOSE_CMD:-'podman-compose'}
 
+$compose_cmd down
+$compose_cmd up --build -d --remove-orphans

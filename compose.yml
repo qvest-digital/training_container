@@ -25,9 +25,9 @@ services:
     cpus: 0.5
     volumes:
       - ./examples:/root/examples:Z
-      - $HOME/.kube/config:/root/.kube/config:ro
+      - $HOME/.kube/config:/root/.kube/config:rw
     build:
-      context: ./shells/shellinabox1
+      context: ./shell
       dockerfile: Containerfile
     privileged: true
     network_mode: host
