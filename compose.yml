@@ -9,7 +9,7 @@ services:
     ports:
       - "8123:1948"
     volumes:
-      - ${PWD}/presentation:/slides:Z
+      - ${PWD}/slides:/slides:Z
     command:
     - /slides
     - --theme="theme.css"
