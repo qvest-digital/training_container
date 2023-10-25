@@ -326,9 +326,15 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 ---
 
-# Kubernetes ConfigMaps & Secrets
+# Kubernetes ConfigMaps
 
-Anlegen einer ConfigMap
+<img src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
+
+**Was sind ConfigMaps?**
+
+----
+
+## Anlegen einer ConfigMap
 
 ```sh
 kubectl apply -f examples/k3s/gitea/configmap.yml
@@ -339,7 +345,7 @@ kubectl apply -f example/k3s/gitea/secrets.yml
 Note:
   - Ziel: Konfiguriere Database mit PW als Secret
 
-## Kubernetes ConfigMaps & Secrets - Hands-on
+## Kubernetes ConfigMaps - Hands-on
 
 1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
 1. Erweitere daf&uuml;r die erstellte Configmaps.
@@ -348,14 +354,76 @@ Note:
 
 ----
 
-## Kubernetes ConfigMaps & Secrets - Hands-on
+## Kubernetes ConfigMaps - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
-# Kubernetes Simple Persistance
+----
 
-- PersistanceVolumes
-- PersistanceVolumesClaims
+## Kubernetes ConfigMaps - Zusammenfassung
+
+* ConfigMaps sind Key-value stores
+* Gut für: die Ablage von Umgebungsvariablen (.env File)
+* Gut für: Konfigurationsdateien
+* Versionierung kann über Suffixes (z.B. Hashes des Inhalts o.Ä.) erfolgen
+* Vorsicht mit Werten, die in JSON/YAML kein String sind!
+
+---
+
+# Kubernetes Secrets
+
+<div><img src="./images/k8s-icons/resources/labeled/secret.svg" class="k8s-icon-large-centered"></div>
+
+**Was sind Secrets?**
+
+----
+
+## Kubernetes Secrets - base64-Daten
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+data:
+  password1: cGFzc3dvcmQ= # "secret"
+  password2: c2VjcmV0     # "password" 
+```
+
+----
+
+## Kubernetes Secrets - Anlegen eines Secrets
+
+```sh
+kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+
+## Kubernetes Secrets - verschiedene Typen
+
+* `Opaque` (am häufigsten verwendet)
+* `kubernetes.io/tls`
+* `kubernetes.io/ssh-auth`
+* `kubernetes.io/basic-auth`
+* ...
+
+Ein leerer `spec.type` ist gleichbedeutend mit `spec.type=Opaque`
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/configuration/secret/)
+
+Notes:
+- Neue types können durch AdmissionControls in Form einer
+  ValidatingWebhookConfiguration realisiert werden.
+
+---
+
+# Kubernetes Simple Persistence
+
+- PersistenceVolumes
+- PersistentVolumeClaims
 
 # Kubernetes Deployments & ReplicaSets
 

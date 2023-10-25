@@ -2,6 +2,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: gitea-mariadb
-stringData: {}
-  #MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
-  #MARIADB_ROOT_PASSWORD: secure
+stringData:
+  MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
+  MARIADB_ROOT_PASSWORD: secure
