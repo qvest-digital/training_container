@@ -328,7 +328,7 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 # Kubernetes ConfigMaps & Secrets
 
-Anlegen einer Configmap
+Anlegen einer ConfigMap
 
 ```sh
 kubectl apply -f examples/k3s/gitea/configmap.yml
@@ -348,7 +348,7 @@ Note:
 
 ----
 
-## Kubernetes ConfitMap & Secrets - Hands-on
+## Kubernetes ConfigMaps & Secrets - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -407,7 +407,7 @@ Note:
 
 ## Kubernetes Namespaces Hands-On
 
-Weclhen Namespace nutze du?
+Welchen Namespace nutzt du?
 
 ```shell
 kubectl config view --minify | less
