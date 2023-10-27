@@ -142,6 +142,14 @@ Note:
 
 Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete)
 
+----
+
+### kubectl - Imperative/Dekalarative Nutzung
+
+* Imperative Nutzung für einfache / schnelle Aufgaben
+* Reproduzierbarkeit mit deklarativer API einfacher
+* In diesem Workshop nutzen wir *fast* ausschließlich die deklarative API
+
 ---
 
 ## Basis Ressourcen
@@ -152,7 +160,7 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 ----
 
-# Kubernetes Pods
+### Kubernetes Pods
 
 <div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
 
@@ -163,7 +171,7 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 ----
 
-## Kubernetes Pods - apply
+### Kubernetes Pods - apply
 
 Erstelle einen "gitea" Pod mit Hilfe der beigelegeten YAML Datei
 
@@ -175,7 +183,7 @@ kubectl apply -f ./examples/k3s/gitea/basic_pod.yaml
 
 ----
 
-## Kubernetes Pods - describe
+### Kubernetes Pods - describe
 
 
 ```sh
@@ -186,7 +194,7 @@ kubectl describe pods/gitea | less
 
 ----
 
-## Kubernetes Pods - get
+### Kubernetes Pods - get
 
 Schaue dir den erstellen Pod im Cluster an
 
@@ -204,7 +212,7 @@ Note:
 
 ----
 
-## Kubernetes Pods - logs
+### Kubernetes Pods - logs
 
 Schaue dir die logs von Gitea an
 
@@ -218,7 +226,7 @@ Wie funktioniert der "Follow Mode"?
 
 ----
 
-## Kubernetes Pods - port-forward
+### Kubernetes Pods - port-forward
 
 Nutze port-forward, um einen HTTP-Request gegen den Pod abzusetzen
 
@@ -234,7 +242,7 @@ Note:
 
 ----
 
-## Kubernetes Pods - Hands-on
+### Kubernetes Pods - Hands-on
 
 1. Nutze einen versionierten Tag oder HASH für das Image (nicht latest!)
 1. Lösche den erstellten Pod wieder.
@@ -247,13 +255,13 @@ Zusatzaufgabe:
 
 ----
 
-## Kubernetes Pods - Hands-on
+### Kubernetes Pods - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
 
-## Kubernetes Pods - Zusammenfassung
+### Kubernetes Pods - Zusammenfassung
 
 - Einblick in kubernetes YAML files
 - Pod Verwaltung
@@ -265,14 +273,14 @@ Zusatzaufgabe:
 
 ---
 
-# Kubernetes Labels & Annotations
+## Kubernetes Labels & Annotations
 
 - Wozu sind Labels und Annotations gut?
 - Wie erstellt man labels.
 
 ----
 
-# Kubernetes Labels und Annotations - Hands-on
+## Kubernetes Labels und Annotations - Hands-on
 
 - Schaue Dir die Labels von Gitea an
   - `kubectl get pods --show-labels`
@@ -286,15 +294,15 @@ Note:
 
 ---
 
-# Kubernetes Services
+## Kubernetes Services
 
 <div><img src="./images/k8s-icons/resources/labeled/svc.svg" class="k8s-icon-large-centered"></div>
 
-- Was ist ein Service?
+**Was ist ein Service?**
 
 ----
 
-## Kubernetes Services - Hands-on
+### Kubernetes Services - Hands-on
 
 Erstelle einen Separaten MariaDB Pod mit einem vorgeschalteten Service
 
@@ -310,12 +318,12 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 ----
 
-## Kubernetes Services - Hands-on
+### Kubernetes Services - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
-## Kubernetes Services - Hands-on
+### Kubernetes Services - Hands-on
 
 - Was ist der Unterschied zwischen den verschiedenen Service-Typen?
 - Wozu dienen die Selektoren der Services?
@@ -326,26 +334,25 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 ---
 
-# Kubernetes ConfigMaps
+## Kubernetes ConfigMaps
 
 <img src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
 
-**Was sind ConfigMaps?**
+**Was ist eine ConfigMap?**
 
 ----
 
-## Anlegen einer ConfigMap
+### Anlegen einer ConfigMap
 
 ```sh
 kubectl apply -f examples/k3s/gitea/configmap.yml
-kubectl apply -f example/k3s/gitea/secrets.yml
 
 ```
 
 Note:
   - Ziel: Konfiguriere Database mit PW als Secret
 
-## Kubernetes ConfigMaps - Hands-on
+### Kubernetes ConfigMaps - Hands-on
 
 1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
 1. Erweitere daf&uuml;r die erstellte Configmaps.
@@ -354,31 +361,48 @@ Note:
 
 ----
 
-## Kubernetes ConfigMaps - Hands-on
+### Kubernetes ConfigMaps - Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
 
-## Kubernetes ConfigMaps - Zusammenfassung
+### Kubernetes ConfigMaps - Änderungen
+
+* ConfigMaps *können* als "`immutable`" markiert werden
+  (seit Kubernetes 1.21 ist das ein stabiles Feature, also relativ neu)
+* Wie erfahren Pods, dass sich referenzierte ConfigMaps geändert haben?
+  - `envFrom`: Änderungen werden nicht propagiert
+  - `volumeMount`: Änderungen werden nur propagiert, wenn kein `subPath` verwendet wird
+
+**Wie kann man ConfigMaps versionieren?**
+
+Notes:
+- content hashes im Suffix erwähnen
+- Da Pods "immutable" sind, brauchen wir wohl Deployments... 
+
+----
+
+### Kubernetes ConfigMaps - Zusammenfassung
 
 * ConfigMaps sind Key-value stores
-* Gut für: die Ablage von Umgebungsvariablen (.env File)
+* Gut für: die Ablage von Umgebungsvariablen (`.env` File)
 * Gut für: Konfigurationsdateien
+* ConfigMaps können als `immutable` markiert werden
 * Versionierung kann über Suffixes (z.B. Hashes des Inhalts o.Ä.) erfolgen
 * Vorsicht mit Werten, die in JSON/YAML kein String sind!
 
 ---
 
-# Kubernetes Secrets
+## Kubernetes Secrets
 
 <div><img src="./images/k8s-icons/resources/labeled/secret.svg" class="k8s-icon-large-centered"></div>
 
-**Was sind Secrets?**
+**Was ist ein Secret?**
 
 ----
 
-## Kubernetes Secrets - base64-Daten
+### Kubernetes Secrets - base64-Daten
 
 ```yaml
 apiVersion: v1
@@ -392,7 +416,7 @@ data:
 
 ----
 
-## Kubernetes Secrets - Anlegen eines Secrets
+### Kubernetes Secrets - Anlegen eines Secrets
 
 ```sh
 kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
@@ -402,7 +426,7 @@ kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
 
 ----
 
-## Kubernetes Secrets - verschiedene Typen
+### Kubernetes Secrets - Typen
 
 * `Opaque` (am häufigsten verwendet)
 * `kubernetes.io/tls`
@@ -418,21 +442,63 @@ Notes:
 - Neue types können durch AdmissionControls in Form einer
   ValidatingWebhookConfiguration realisiert werden.
 
+----
+
+### Kubernetes Secrets - stringData
+
+Vereinfachtes Anlegen von Secrets mit einer "write only" Property:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-secret-1
+stringData:
+  foo: bar
+  bar: |
+    Ein etwas längerer Wert mit viel Text
+    und so ....
+```
+
+----
+
+### Kubernetes Secrets - Zugriff per API
+
+* Shell scripting mit `kubectl`, `jq` und `base64`
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+Notes:
+- verschieden Möglichkeite zeigen, wie Daten ausgelesen werden können.
+- | jq ... | base64
+- -o go-template='{{ .data.??? }}' ...
+- -o jsonpath='{.data.???}'
+- ...
+
+----
+
+### Kubernetes Secrets - Zusammenfassung
+
+* Secrets funktionieren im Wesentichen wie ConfigMaps
+* Secrets haben einen Typen (default: `Opaque`)
+* Secrets *können* (wie ConfigMaps) als "`immutable`" markiert werden
+* Die Values eines Secrets sind base64 encoded
+
 ---
 
-# Kubernetes Simple Persistence
+## Kubernetes Simple Persistence
 
 - PersistenceVolumes
 - PersistentVolumeClaims
 
-# Kubernetes Deployments & ReplicaSets
+## Kubernetes Deployments & ReplicaSets
 
 Notes:
   - replicaset
 
 ---
 
-# Kubernetes Namespaces
+## Kubernetes Namespaces
 
 - Kubernetes verwendet Namespaces, um Ressourcen innerhalb eines Clusters zu isolieren.
 - Die Namen von Ressourcen müssen innerhalb eines Namespaces eindeutig sein, aber nicht über Namespaces hinweg.
@@ -443,7 +509,7 @@ Notes:
 
 ----
 
-## Kubernetes Namespaces
+### Kubernetes Namespaces
 
 ```sh
 kubectl get namespace
@@ -462,7 +528,7 @@ Note:
 
 ----
 
-## Kubernetes Namespaces - Defaults
+### Kubernetes Namespaces - Defaults
 
 - default
 - kube-node-lease
@@ -473,7 +539,7 @@ Note:
 
 ----
 
-## Kubernetes Namespaces Hands-On
+### Kubernetes Namespaces Hands-On
 
 Welchen Namespace nutzt du?
 
@@ -485,17 +551,17 @@ kubectl config view --minify | less
 
 ---
 
-## Kubernetss Namespaces Hands-On
+### Kubernetss Namespaces Hands-On
 
 - Verschiebe deine Gitea Application in den Namespace SVC.
 - Entferne deine vorhereige Application
   - in welchem Namespace befand sie sich?
-- Benutze den `namespace` paramether in deiner YML.
+- Benutze den `namespace` Parameter im Manifest.
 
 
 ----
 
-# Kuberentes Intermezzo: K8S-Abkürzungen
+## Kuberentes Intermezzo: K8S-Abkürzungen
 
 - Pod: po
 - Service: svc
@@ -507,16 +573,16 @@ kubectl config view --minify | less
 
 ---
 
-# Optional: Kubernetes StatefulSet
+## Optional: Kubernetes StatefulSet
 
 ---
 
-# Optional: Kubernetes DaemonSet
+## Optional: Kubernetes DaemonSet
 
 
 ---
 
-# Optional: Einblick in Kustomize
+## Optional: Einblick in Kustomize
 
 
 ---
@@ -530,7 +596,7 @@ kubectl config view --minify | less
 
 ---
 
-# Ausblick
+## Ausblick
 
 - Lifecycle und Lifecycle Management
 - Kubernetes Hardening
@@ -541,4 +607,4 @@ kubectl config view --minify | less
 
 ---
 
-# Ende
+## Ende
