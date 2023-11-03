@@ -300,6 +300,9 @@ Note:
 
 **Was ist ein Service?**
 
+* DNS &amp; Cluster-internes Load balancing
+* Services ermöglichen Pods den Zugriff auf andere Pods
+
 ----
 
 ### Kubernetes Services - Hands-on
@@ -340,6 +343,9 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 **Was ist eine ConfigMap?**
 
+* Key-value storage
+* Stellen Umgebungsvariablen oder Dateien für Pods zur Verfügung
+
 ----
 
 ### Anlegen einer ConfigMap
@@ -369,24 +375,18 @@ Note:
 
 ### Kubernetes ConfigMaps - Änderungen
 
-* ConfigMaps *können* als "`immutable`" markiert werden
+* ConfigMaps *können* als "`immutable`* markiert werden
   (seit Kubernetes 1.21 ist das ein stabiles Feature, also relativ neu)
 * Wie erfahren Pods, dass sich referenzierte ConfigMaps geändert haben?
   - `envFrom`: Änderungen werden nicht propagiert
   - `volumeMount`: Änderungen werden nur propagiert, wenn kein `subPath` verwendet wird
-
-**Wie kann man ConfigMaps versionieren?**
-
-Notes:
-- content hashes im Suffix erwähnen
-- Da Pods "immutable" sind, brauchen wir wohl Deployments... 
 
 ----
 
 ### Kubernetes ConfigMaps - Zusammenfassung
 
 * ConfigMaps sind Key-value stores
-* Gut für: die Ablage von Umgebungsvariablen (`.env` File)
+* Gut für: die Ablage von Umgebungsvariablen (.env File)
 * Gut für: Konfigurationsdateien
 * ConfigMaps können als `immutable` markiert werden
 * Versionierung kann über Suffixes (z.B. Hashes des Inhalts o.Ä.) erfolgen

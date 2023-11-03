@@ -29,7 +29,7 @@ body {
 }
 
 .reveal:before {
-    content: 'https://github.com/tarent/training_docker';
+    content: 'https://github.com/tarent/training_container';
     position: absolute;
     height: 60px;
     bottom: 11px;
