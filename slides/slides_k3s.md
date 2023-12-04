@@ -81,7 +81,7 @@ TBD
 
 ----
 
-### Architektur von Kubernetes
+### Architektur von Kubernetes (K8S)
 
 - Master-Knoten
 - Worker-Knoten
@@ -90,14 +90,29 @@ TBD
 - Weitere Komponenten
 
 ----
+### Kubernetes-Komponenten (Diagramm)
 
-### Architektur Unterschied zu k3s
+<div><img src="./images/k8s-architecture-1.png" style="height: 400px;"></div>
+
+Quelle: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-works/)
+
+----
+
+### Architektur-Unterschiede zu k3s
 
 - (Opininated) Kubernetes ohne Bloat
 - Aussprache: keez / keys (?)
 - CRI: containerd, CNI: flannel
 - SQlite statt etcd als backend storage
 - Traefik als Ingress Controller
+
+----
+
+### k3s-Komponenten (Diagramm)
+
+<div><img src="./images/k3s-architecture-1.png" style="height: 400px;"></div>
+
+Quelle: [k3s Dokumentation](https://docs.k3s.io/architecture)
 
 ---
 
@@ -152,22 +167,61 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 ---
 
-## Basis Ressourcen
+## Kubernetes Ressourcen
 
-- Pods
-- Services
-- Deployments
+*Was sind Kubernetes-Ressourcen?*
+
+<q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 
 ----
 
-### Kubernetes Pods
+### Ablage von Kubernetes-Ressourcen
+
+- JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
+  - `apiVersion` ([API + "/"] + Version)
+  - `kind`
+  - `spec.name`
+  - `spec.namespace`
+- Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
+
+Note:
+- Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
+  einfach wegfliegen.
+
+----
+
+### Built-in: Basis-Ressoucen (v1)
+
+* `apiVersion: v1` (manchmal auch "core" genannt)
+* Kubernetes "v1"-Versprechen der vollständigen Abwärtskompatibilität
+
+### Built-in: Basis-Ressourcen (non-v1)
+
+Beispiele:
+
+ * Ingress API (`networking.k8s.io/v1/Ingress`)
+ * Horizontal Pod Autoscaling (`autoscaling/v2/HorizontalPodAutoscaler`)
+
+----
+
+### Custom Resources
+
+Kubernetes kann mit Hilfe von `Custom Resource Definitions` erweitert
+werden. (nicht im Scope des Teils des heutigen Workshops)
+
+---
+
+## Kubernetes Pods
 
 <div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
 
 **Was ist ein Pod?**
 
 <q cite="https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod">Pods are herds of marine mammals including whales, dolphins, walruses and seals.</q>
-(Source: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod))
+
+Quelle: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod)
 
 ----
 
@@ -491,10 +545,57 @@ Notes:
 - PersistenceVolumes
 - PersistentVolumeClaims
 
+---
+
 ## Kubernetes Deployments & ReplicaSets
+
+<div>
+  <img src="./images/k8s-icons/resources/labeled/rs.svg" class="k8s-icon-large-centered">
+  <img src="./images/k8s-icons/resources/labeled/deploy.svg" class="k8s-icon-large-centered">
+</div>
 
 Notes:
   - replicaset
+
+----
+
+### Was ist ein ReplicaSet?
+
+<q cite="">A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.</q>
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
+
+----
+
+### Verwendung eines ReplicaSets
+
+<q cite="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#when-to-use-a-replicaset">A ReplicaSet ensures that a specified number of pod replicas are running at any given time. However, a Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to Pods along with a lot of other useful features. Therefore, we recommend using Deployments instead of directly using ReplicaSets, unless you require custom update orchestration or don't require updates at all.</q>
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#when-to-use-a-replicaset)
+
+----
+
+### Was ist ein Deployment?
+
+<q cite="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">
+A Deployment provides declarative updates for Pods and ReplicaSets.</q>
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+
+----
+
+### Deployments - Hands-on
+
+Erstelle ein Gitea-Server Deployment
+
+```sh
+kubectl apply -f ./ext_gitea_server_deployment.yaml
+```
+
+- Schaue Dir das Deployment mit `kubectl get` an
+- Was fällt Dir bezüglich der Labels auf?
+- Änder den Wert von `spec.replicas`. Was passiert?
+
 
 ---
 
