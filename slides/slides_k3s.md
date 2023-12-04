@@ -605,7 +605,8 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 - Die Namen von Ressourcen müssen innerhalb eines Namespaces eindeutig sein, aber nicht über Namespaces hinweg.
 - Die Namespace-basierte Begrenzung gilt nur für namespaced Objekte
   - (z.B. Deployments, Services)
-  - nicht für clusterweite Objekte (z.B. StorageClass, Nodes, PersistentVolumes).
+  - nicht für cluster-weite Objekte (z.B. StorageClass, Nodes, PersistentVolumes).
+  - ein Namespace selbst ist ein cluster-weites Objekt.
 
 
 ----
