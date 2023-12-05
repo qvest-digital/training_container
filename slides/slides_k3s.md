@@ -16,21 +16,21 @@ revealOptions:
   <h4>Volker Schmitz</h4>
   <img src="./images/saltyblu.png">
   <h5>DevOps Consultant</h5>
-  v.schmitz@qvest-digital.com
+  <a href="mailto:v.schmitz@qvest-digital.com">v.schmitz@qvest-digital.com</a>
 </div>
 
 <div class="divided">
   <h4>Benjamin Jung</h4>
   <img src="./images/headcr4sh.png">
   <h5>DevOps Engineer</h5>
-  b.jung@qvest-digital.com
+  <a href="b.jung@qvest-digital.com">b.jung@qvest-digital.com</a>
 </div>
 
 <!--div class="divided">
   <h4>Daniel Zerlett</h4>
   <img src="./images/b00lduck.png">
   <h5>Software Architect</h5>
-  d.zerlett@tarent.de
+  d.zerlett@qvest-digital.com
 </div-->
 
 Note:
@@ -58,7 +58,7 @@ Regeln:
 - Architektur von Kubernetes
 - Architektur-Unterschiede zwischen k8s und k3s
 - Einführung in die Kommandozeile: kubectl
-- Basis Ressourcen & grundlegende Konzepte
+- Basis Ressourcen &amp; grundlegende Konzepte
 - Optional: Kubernetes StatefulSet
 - Optional: Kubernetes DaemonSet
 - Optional: Einblick in Kustomize
@@ -77,16 +77,22 @@ Regeln:
 
 ----
 
-### "Griechische Seefahrer"
+### „Griechische Seefahrer“
+
+<!-- .slide: data-background-opacity="10%" data-background-image="./images/backgrounds/choco-1920x1080.png" -->
 
   - Kubernetes ist das griechische Wort für „Steuermann“
-  - Viele Kubernetes-nahe Projekte nutzen griechische Begriffe
+  - Viele Kubernetes-nahe Projekte nutzen (z.T. griechische) Begriffe
     mit nautischem Ursprung
+      - Istio (griechisch ιστίο = „Segel“)
       - Helm (Steuerrad),
       - Popeye (der Spinat-essende Seemann)
   - Die Abkürzung K8S
     - K(ubernete)S = K(8)S
     - K + 8 Buchstaben + N = Kubernetes
+
+Notes:
+- tiller
 
 ----
 
@@ -150,6 +156,9 @@ Note:
 
 ### Autocomplete für kubectl
 
+
+<!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/magician-1920x1080.png" -->
+
 - bash:
   ```bash
   echo "source <(kubectl completion bash)" >> ~/.bashrc
@@ -177,6 +186,8 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 ---
 
 ## Kubernetes Pods
+
+<!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/dolphins.jpg" -->
 
 <div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
 
@@ -290,10 +301,10 @@ Zusatzaufgabe:
 
 ---
 
-## Kubernetes Labels & Annotations
+## Kubernetes Labels &amp; Annotations
 
 - Wozu sind Labels und Annotations gut?
-- Wie erstellt man labels.
+- Wie erstellt man Labels?
 
 ----
 
@@ -302,12 +313,41 @@ Zusatzaufgabe:
 - Schaue Dir die Labels von Gitea an
   - `kubectl get pods --show-labels`
 - Lass Dir Pods anhand von ausgesuchten Labels anzeigen
-  - `kubectl get pods -l`
+  - `kubectl get pods -l <...>`
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
-  - annotation
+  - annotations
+
+----
+
+### Standard-Labels
+
+* `app.kubernetes.io/name`
+* `app.kubernetes.io/instance`
+* `app.kubernetes.io/version`
+* `app.kubernetes.io/component`
+* `app.kubernetes.io/part-of`
+* `app.kubernetes.io/managed-by`
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)
+
+----
+
+### Standard-Labels: Beispiel
+
+```yaml
+# This is an excerpt
+metadata:
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql-abcxzy
+    app.kubernetes.io/version: "5.7.21" # <-- achtung!
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress
+    app.kubernetes.io/managed-by: helm
+```
 
 ---
 
@@ -549,34 +589,37 @@ Notes:
 
 ---
 
-## Kubernetes Simple Persistence
+## Kubernetes Persistence
 
-- PersistenceVolumes
-- PersistentVolumeClaims
+<div>
+  <img src="./images/k8s-icons/resources/labeled/pv.svg" class="k8s-icon-large-centered">
+  <img src="./images/k8s-icons/resources/labeled/pvc.svg" class="k8s-icon-large-centered">
+</div>
+
+PersistenceVolumes &amp; PersistentVolumeClaims
 
 ----
 
 ### Persistence Volumes
 
 - Der Storage in Pods ist grundsätzlich "ephemeral" (*kurzlebig*)
-  - Restart oder Crash fueren zu einem verlust des Storages
+  - Restart oder Crash führen zu einem Verlust der Daten
 
-Um dies zu verhindern gibt es "Persistance Volume" Loesungen.
+Um dies zu verhindern gibt es verschiedene Storage Provider
 
-- [Buildins Types by K8S](https://kubernetes.io/docs/concepts/storage/volumes/)
-
-Fast "unendlich" erweiterbar über Plugins
+- [Built-in Types by K8S](https://kubernetes.io/docs/concepts/storage/volumes/)
+- Erweiterbar über Plugins
 
 ----
 
 ### LocalStorageProvider in k3s
 
-Ein Persitance Volume Claim ist ein User Spezifischer "Storage Request"
-Dient dazu Storage über das jeweilig Plugin zu beanspruchen.
+Ein `PersitentVolumeClaim` ist ein User-spezifischer "Storage Request",
+der dazu dient Storage über das jeweilig Plugin zu beanspruchen.
 
 ----
 
-### Local Volumes - HandsOn
+### Hands-on
 
 ```shell
 kubectl apply -f basic_pvc.yaml
@@ -591,7 +634,8 @@ kubectl pvc
 
 ### Hands-on
 
-- Sorge dafuer das deine Datenbank & Gitea ihre Daten persistiert.
+- Sorge dafür das deine Datenbank &amp; Gitea ihre Daten persistieren.
+- Nutze hierzu die `local-path` (default) StorageClass von k3s.
 
 ----
 
@@ -642,7 +686,7 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 
 - Schaue Dir das Deployment mit `kubectl get` an
 - Was fällt Dir bezüglich der Labels auf?
-- Änder den Wert von `spec.replicas`. Was passiert?
+- Ändere den Wert von `spec.replicas`. Was passiert?
 
 ---
 
@@ -708,7 +752,7 @@ kubectl config view --minify | less
 
 ---
 
-## Kuberentes Intermezzo
+## Kubernetes Intermezzo
 
 ### K8S-Abkürzungen
 
@@ -716,12 +760,25 @@ kubectl config view --minify | less
 - Service: svc
 - ConfigMap: cm
 - Namespace: ns
+- PersistentVolume: pvc
+- [...]
+
+----
+
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ---
 
 ## Fragen
+
+Notes:
+- wir haben bisher nur an der Oberfläche gekratzt
+- Nächste Punkte:
+  - Resource Limits
+  - Container ohne root-Rechte
+  - read-only containers, z.B. mit emptyDir
 
 ----
 
