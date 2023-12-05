@@ -54,7 +54,15 @@ Regeln:
 
 ## Inhaltsverzeichnis
 
-TBD
+- Was ist Kubernetes?
+- Architektur von Kubernetes
+- Architektur-Unterschiede zwischen k8s und k3s
+- Einführung in die Kommandozeile: kubectl
+- Basis Ressourcen & grundlegende Konzepte
+- Optional: Kubernetes StatefulSet
+- Optional: Kubernetes DaemonSet
+- Optional: Einblick in Kustomize
+- Optional: Praktische Tools
 
 ---
 
@@ -73,11 +81,12 @@ TBD
 
   - Kubernetes ist das griechische Wort für „Steuermann“
   - Viele Kubernetes-nahe Projekte nutzen griechische Begriffe
-    und/oder Worte mit nautischem Ursprung
-
-    Beispiele: Helm (Steuerrad), Popeye (der Spinat-essende Seemann)
-
-    K8S: K + 8 Buchstaben + N = Kubernetes
+    mit nautischem Ursprung
+      - Helm (Steuerrad),
+      - Popeye (der Spinat-essende Seemann)
+  - Die Abkürzung K8S
+    - K(ubernete)S = K(8)S
+    - K + 8 Buchstaben + N = Kubernetes
 
 ----
 
@@ -163,53 +172,7 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 * Imperative Nutzung für einfache / schnelle Aufgaben
 * Reproduzierbarkeit mit deklarativer API einfacher
-* In diesem Workshop nutzen wir *fast* ausschließlich die deklarative API
-
----
-
-## Kubernetes Ressourcen
-
-*Was sind Kubernetes-Ressourcen?*
-
-<q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
-
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-
-----
-
-### Ablage von Kubernetes-Ressourcen
-
-- JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
-  - `apiVersion` ([API + "/"] + Version)
-  - `kind`
-  - `spec.name`
-  - `spec.namespace`
-- Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
-
-Note:
-- Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
-  einfach wegfliegen.
-
-----
-
-### Built-in: Basis-Ressoucen (v1)
-
-* `apiVersion: v1` (manchmal auch "core" genannt)
-* Kubernetes "v1"-Versprechen der vollständigen Abwärtskompatibilität
-
-### Built-in: Basis-Ressourcen (non-v1)
-
-Beispiele:
-
- * Ingress API (`networking.k8s.io/v1/Ingress`)
- * Horizontal Pod Autoscaling (`autoscaling/v2/HorizontalPodAutoscaler`)
-
-----
-
-### Custom Resources
-
-Kubernetes kann mit Hilfe von `Custom Resource Definitions` erweitert
-werden. (nicht im Scope des Teils des heutigen Workshops)
+* Hier nutzen wir *fast* ausschließlich die deklarative API
 
 ---
 
@@ -296,11 +259,11 @@ Note:
 
 ----
 
-### Kubernetes Pods - Hands-on
+### Hands-on
 
 1. Nutze einen versionierten Tag oder HASH für das Image (nicht latest!)
 1. Lösche den erstellten Pod wieder.
-1. Starte eine Gitea mit MariaDB im selben Pod
+1. Starte eine Gitea mit PostgreSQL im selben Pod
 
 Zusatzaufgabe:
 1. Konfiguriere die Datenbank und Gitea mittels `spec.containers.*.env`
@@ -309,7 +272,7 @@ Zusatzaufgabe:
 
 ----
 
-### Kubernetes Pods - Hands-on
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -334,7 +297,7 @@ Zusatzaufgabe:
 
 ----
 
-## Kubernetes Labels und Annotations - Hands-on
+## Hands-on
 
 - Schaue Dir die Labels von Gitea an
   - `kubectl get pods --show-labels`
@@ -345,6 +308,52 @@ Zusatzaufgabe:
 
 Note:
   - annotation
+
+---
+
+## Kubernetes Ressourcen
+
+*Was sind Kubernetes-Ressourcen?*
+
+<q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+
+----
+
+### Ablage von Kubernetes-Ressourcen
+
+- JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
+  - `apiVersion` ([API + "/"] + Version)
+  - `kind`
+  - `spec.name`
+  - `spec.namespace`
+- Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
+
+Note:
+- Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
+  einfach wegfliegen.
+
+----
+
+### Built-in: Basis-Ressoucen (v1)
+
+* `apiVersion: v1` (manchmal auch "core" genannt)
+* Kubernetes "v1"-Versprechen der vollständigen Abwärtskompatibilität
+
+### Built-in: Basis-Ressourcen (non-v1)
+
+Beispiele:
+
+ * Ingress API (`networking.k8s.io/v1/Ingress`)
+ * Horizontal Pod Autoscaling (`autoscaling/v2/HorizontalPodAutoscaler`)
+
+----
+
+### Custom Resources
+
+Kubernetes kann mit Hilfe von `Custom Resource Definitions` erweitert
+werden. (nicht im Scope des Teils des heutigen Workshops)
 
 ---
 
@@ -359,7 +368,7 @@ Note:
 
 ----
 
-### Kubernetes Services - Hands-on
+### Hands-on
 
 Erstelle einen Separaten MariaDB Pod mit einem vorgeschalteten Service
 
@@ -369,18 +378,18 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 - Schaue Dir Service und Pod mit kubectl describe an
 - Nutze kubectl port-forward, um den Pod über den Service anzusprechen
-- Verbinde Gitea mit dem separaten MariaDB Pod
+- Verbinde Gitea mit dem separaten PostreSQL Pod
 
 **ACHTUNG**: Port-forwarding funktioniert in der Praxis nicht so, wie man es erwartet!
 
 ----
 
-### Kubernetes Services - Hands-on
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
-### Kubernetes Services - Hands-on
+### Hands-on
 
 - Was ist der Unterschied zwischen den verschiedenen Service-Typen?
 - Wozu dienen die Selektoren der Services?
@@ -412,7 +421,7 @@ kubectl apply -f examples/k3s/gitea/configmap.yml
 Note:
   - Ziel: Konfiguriere Database mit PW als Secret
 
-### Kubernetes ConfigMaps - Hands-on
+### Hands-on
 
 1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
 1. Erweitere daf&uuml;r die erstellte Configmaps.
@@ -421,7 +430,7 @@ Note:
 
 ----
 
-### Kubernetes ConfigMaps - Hands-on
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -465,7 +474,7 @@ metadata:
   name: my-secret
 data:
   password1: cGFzc3dvcmQ= # "secret"
-  password2: c2VjcmV0     # "password" 
+  password2: c2VjcmV0     # "password"
 ```
 
 ----
@@ -545,7 +554,46 @@ Notes:
 - PersistenceVolumes
 - PersistentVolumeClaims
 
----
+----
+
+### Persistence Volumes
+
+- Der Storage in Pods ist grundsätzlich "ephemeral" (*kurzlebig*)
+  - Restart oder Crash fueren zu einem verlust des Storages
+
+Um dies zu verhindern gibt es "Persistance Volume" Loesungen.
+
+- [Buildins Types by K8S](https://kubernetes.io/docs/concepts/storage/volumes/)
+
+Fast "unendlich" erweiterbar über Plugins
+
+----
+
+### LocalStorageProvider in k3s
+
+Ein Persitance Volume Claim ist ein User Spezifischer "Storage Request"
+Dient dazu Storage über das jeweilig Plugin zu beanspruchen.
+
+----
+
+### Local Volumes - HandsOn
+
+```shell
+kubectl apply -f basic_pvc.yaml
+kubectl apply -f basic_pvc_pod.yaml
+kubectl get pv
+kubectl pvc
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+
+### Hands-on
+
+- Sorge dafuer das deine Datenbank & Gitea ihre Daten persistiert.
+
+----
 
 ## Kubernetes Deployments & ReplicaSets
 
@@ -584,7 +632,7 @@ Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 
 ----
 
-### Deployments - Hands-on
+### Hands-on
 
 Erstelle ein Gitea-Server Deployment
 
@@ -596,7 +644,6 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 - Was fällt Dir bezüglich der Labels auf?
 - Änder den Wert von `spec.replicas`. Was passiert?
 
-
 ---
 
 ## Kubernetes Namespaces
@@ -607,7 +654,6 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
   - (z.B. Deployments, Services)
   - nicht für cluster-weite Objekte (z.B. StorageClass, Nodes, PersistentVolumes).
   - ein Namespace selbst ist ein cluster-weites Objekt.
-
 
 ----
 
@@ -641,7 +687,7 @@ Note:
 
 ----
 
-### Kubernetes Namespaces Hands-On
+### Hands-on
 
 Welchen Namespace nutzt du?
 
@@ -651,7 +697,7 @@ kubectl config view --minify | less
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
----
+----
 
 ### Kubernetss Namespaces Hands-On
 
@@ -660,10 +706,11 @@ kubectl config view --minify | less
   - in welchem Namespace befand sie sich?
 - Benutze den `namespace` Parameter im Manifest.
 
+---
 
-----
+## Kuberentes Intermezzo
 
-## Kuberentes Intermezzo: K8S-Abkürzungen
+### K8S-Abkürzungen
 
 - Pod: po
 - Service: svc
@@ -672,22 +719,27 @@ kubectl config view --minify | less
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
-
 ---
+
+## Fragen
+
+----
 
 ## Optional: Kubernetes StatefulSet
 
----
+----
 
 ## Optional: Kubernetes DaemonSet
 
+----
 
----
+## Optional: Vertiefung PersitentVolumes & Claims
+
+----
 
 ## Optional: Einblick in Kustomize
 
-
----
+----
 
 ## Optional: Praktische Tools
 
