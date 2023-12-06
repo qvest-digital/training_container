@@ -15,9 +15,9 @@ html * {
  *********************************************/
 body {
     background-color: #fff;
-    /*background-image: url('images/docker_bg.png');*/
+    background-image: url('images/backgrounds/white_abstract.jpg');
     background-position: center;
-    background-size: 100% auto;
+    background-size: cover;
     background-repeat: no-repeat;
 }
 
@@ -29,7 +29,7 @@ body {
 }
 
 .reveal:before {
-    content: 'https://github.com/tarent/training_container';
+    content: 'https://github.com/qvest-digital/training_container';
     position: absolute;
     height: 60px;
     bottom: 11px;

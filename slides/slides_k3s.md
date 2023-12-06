@@ -16,21 +16,21 @@ revealOptions:
   <h4>Volker Schmitz</h4>
   <img src="./images/saltyblu.png">
   <h5>DevOps Consultant</h5>
-  v.schmitz@qvest-digital.com
+  <a href="mailto:v.schmitz@qvest-digital.com">v.schmitz@qvest-digital.com</a>
 </div>
 
 <div class="divided">
   <h4>Benjamin Jung</h4>
   <img src="./images/headcr4sh.png">
   <h5>DevOps Engineer</h5>
-  b.jung@qvest-digital.com
+  <a href="b.jung@qvest-digital.com">b.jung@qvest-digital.com</a>
 </div>
 
 <!--div class="divided">
   <h4>Daniel Zerlett</h4>
   <img src="./images/b00lduck.png">
   <h5>Software Architect</h5>
-  d.zerlett@tarent.de
+  d.zerlett@qvest-digital.com
 </div-->
 
 Note:
@@ -54,7 +54,15 @@ Regeln:
 
 ## Inhaltsverzeichnis
 
-TBD
+- Was ist Kubernetes?
+- Architektur von Kubernetes
+- Architektur-Unterschiede zwischen k8s und k3s
+- Einführung in die Kommandozeile: kubectl
+- Basis Ressourcen &amp; grundlegende Konzepte
+- Optional: Kubernetes StatefulSet
+- Optional: Kubernetes DaemonSet
+- Optional: Einblick in Kustomize
+- Optional: Praktische Tools
 
 ---
 
@@ -69,15 +77,22 @@ TBD
 
 ----
 
-### "Griechische Seefahrer"
+### „Griechische Seefahrer“
+
+<!-- .slide: data-background-opacity="10%" data-background-image="./images/backgrounds/choco-1920x1080.png" -->
 
   - Kubernetes ist das griechische Wort für „Steuermann“
-  - Viele Kubernetes-nahe Projekte nutzen griechische Begriffe
-    und/oder Worte mit nautischem Ursprung
+  - Viele Kubernetes-nahe Projekte nutzen (z.T. griechische) Begriffe
+    mit nautischem Ursprung
+      - Istio (griechisch ιστίο = „Segel“)
+      - Helm (Steuerrad),
+      - Popeye (der Spinat-essende Seemann)
+  - Die Abkürzung K8S
+    - K(ubernete)S = K(8)S
+    - K + 8 Buchstaben + N = Kubernetes
 
-    Beispiele: Helm (Steuerrad), Popeye (der Spinat-essende Seemann)
-
-    K8S: K + 8 Buchstaben + N = Kubernetes
+Notes:
+- tiller
 
 ----
 
@@ -141,6 +156,9 @@ Note:
 
 ### Autocomplete für kubectl
 
+
+<!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/magician-1920x1080.png" -->
+
 - bash:
   ```bash
   echo "source <(kubectl completion bash)" >> ~/.bashrc
@@ -163,57 +181,13 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 * Imperative Nutzung für einfache / schnelle Aufgaben
 * Reproduzierbarkeit mit deklarativer API einfacher
-* In diesem Workshop nutzen wir *fast* ausschließlich die deklarative API
-
----
-
-## Kubernetes Ressourcen
-
-*Was sind Kubernetes-Ressourcen?*
-
-<q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
-
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-
-----
-
-### Ablage von Kubernetes-Ressourcen
-
-- JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
-  - `apiVersion` ([API + "/"] + Version)
-  - `kind`
-  - `spec.name`
-  - `spec.namespace`
-- Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
-
-Note:
-- Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
-  einfach wegfliegen.
-
-----
-
-### Built-in: Basis-Ressoucen (v1)
-
-* `apiVersion: v1` (manchmal auch "core" genannt)
-* Kubernetes "v1"-Versprechen der vollständigen Abwärtskompatibilität
-
-### Built-in: Basis-Ressourcen (non-v1)
-
-Beispiele:
-
- * Ingress API (`networking.k8s.io/v1/Ingress`)
- * Horizontal Pod Autoscaling (`autoscaling/v2/HorizontalPodAutoscaler`)
-
-----
-
-### Custom Resources
-
-Kubernetes kann mit Hilfe von `Custom Resource Definitions` erweitert
-werden. (nicht im Scope des Teils des heutigen Workshops)
+* Hier nutzen wir *fast* ausschließlich die deklarative API
 
 ---
 
 ## Kubernetes Pods
+
+<!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/dolphins.jpg" -->
 
 <div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
 
@@ -296,11 +270,11 @@ Note:
 
 ----
 
-### Kubernetes Pods - Hands-on
+### Hands-on
 
 1. Nutze einen versionierten Tag oder HASH für das Image (nicht latest!)
 1. Lösche den erstellten Pod wieder.
-1. Starte eine Gitea mit MariaDB im selben Pod
+1. Starte eine Gitea mit PostgreSQL im selben Pod
 
 Zusatzaufgabe:
 1. Konfiguriere die Datenbank und Gitea mittels `spec.containers.*.env`
@@ -309,7 +283,7 @@ Zusatzaufgabe:
 
 ----
 
-### Kubernetes Pods - Hands-on
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -327,24 +301,99 @@ Zusatzaufgabe:
 
 ---
 
-## Kubernetes Labels & Annotations
+## Kubernetes Labels &amp; Annotations
 
 - Wozu sind Labels und Annotations gut?
-- Wie erstellt man labels.
+- Wie erstellt man Labels?
 
 ----
 
-## Kubernetes Labels und Annotations - Hands-on
+## Hands-on
 
 - Schaue Dir die Labels von Gitea an
   - `kubectl get pods --show-labels`
 - Lass Dir Pods anhand von ausgesuchten Labels anzeigen
-  - `kubectl get pods -l`
+  - `kubectl get pods -l <...>`
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 Note:
-  - annotation
+  - annotations
+
+----
+
+### Standard-Labels
+
+* `app.kubernetes.io/name`
+* `app.kubernetes.io/instance`
+* `app.kubernetes.io/version`
+* `app.kubernetes.io/component`
+* `app.kubernetes.io/part-of`
+* `app.kubernetes.io/managed-by`
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)
+
+----
+
+### Standard-Labels: Beispiel
+
+```yaml
+# This is an excerpt
+metadata:
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/instance: mysql-abcxzy
+    app.kubernetes.io/version: "5.7.21" # <-- achtung!
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress
+    app.kubernetes.io/managed-by: helm
+```
+
+---
+
+## Kubernetes Ressourcen
+
+*Was sind Kubernetes-Ressourcen?*
+
+<q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
+
+Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+
+----
+
+### Ablage von Kubernetes-Ressourcen
+
+- JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
+  - `apiVersion` ([API + "/"] + Version)
+  - `kind`
+  - `spec.name`
+  - `spec.namespace`
+- Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
+
+Note:
+- Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
+  einfach wegfliegen.
+
+----
+
+### Built-in: Basis-Ressoucen (v1)
+
+* `apiVersion: v1` (manchmal auch "core" genannt)
+* Kubernetes "v1"-Versprechen der vollständigen Abwärtskompatibilität
+
+### Built-in: Basis-Ressourcen (non-v1)
+
+Beispiele:
+
+ * Ingress API (`networking.k8s.io/v1/Ingress`)
+ * Horizontal Pod Autoscaling (`autoscaling/v2/HorizontalPodAutoscaler`)
+
+----
+
+### Custom Resources
+
+Kubernetes kann mit Hilfe von `Custom Resource Definitions` erweitert
+werden. (nicht im Scope des Teils des heutigen Workshops)
 
 ---
 
@@ -359,7 +408,7 @@ Note:
 
 ----
 
-### Kubernetes Services - Hands-on
+### Hands-on
 
 Erstelle einen Separaten MariaDB Pod mit einem vorgeschalteten Service
 
@@ -369,18 +418,18 @@ kubectl apply -f ./basic_mariadb_service.yaml
 
 - Schaue Dir Service und Pod mit kubectl describe an
 - Nutze kubectl port-forward, um den Pod über den Service anzusprechen
-- Verbinde Gitea mit dem separaten MariaDB Pod
+- Verbinde Gitea mit dem separaten PostreSQL Pod
 
 **ACHTUNG**: Port-forwarding funktioniert in der Praxis nicht so, wie man es erwartet!
 
 ----
 
-### Kubernetes Services - Hands-on
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
-### Kubernetes Services - Hands-on
+### Hands-on
 
 - Was ist der Unterschied zwischen den verschiedenen Service-Typen?
 - Wozu dienen die Selektoren der Services?
@@ -412,7 +461,7 @@ kubectl apply -f examples/k3s/gitea/configmap.yml
 Note:
   - Ziel: Konfiguriere Database mit PW als Secret
 
-### Kubernetes ConfigMaps - Hands-on
+### Hands-on
 
 1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
 1. Erweitere daf&uuml;r die erstellte Configmaps.
@@ -421,7 +470,7 @@ Note:
 
 ----
 
-### Kubernetes ConfigMaps - Hands-on
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
@@ -465,7 +514,7 @@ metadata:
   name: my-secret
 data:
   password1: cGFzc3dvcmQ= # "secret"
-  password2: c2VjcmV0     # "password" 
+  password2: c2VjcmV0     # "password"
 ```
 
 ----
@@ -540,12 +589,55 @@ Notes:
 
 ---
 
-## Kubernetes Simple Persistence
+## Kubernetes Persistence
 
-- PersistenceVolumes
-- PersistentVolumeClaims
+<div>
+  <img src="./images/k8s-icons/resources/labeled/pv.svg" class="k8s-icon-large-centered">
+  <img src="./images/k8s-icons/resources/labeled/pvc.svg" class="k8s-icon-large-centered">
+</div>
 
----
+PersistenceVolumes &amp; PersistentVolumeClaims
+
+----
+
+### Persistence Volumes
+
+- Der Storage in Pods ist grundsätzlich "ephemeral" (*kurzlebig*)
+  - Restart oder Crash führen zu einem Verlust der Daten
+
+Um dies zu verhindern gibt es verschiedene Storage Provider
+
+- [Built-in Types by K8S](https://kubernetes.io/docs/concepts/storage/volumes/)
+- Erweiterbar über Plugins
+
+----
+
+### LocalStorageProvider in k3s
+
+Ein `PersitentVolumeClaim` ist ein User-spezifischer "Storage Request",
+der dazu dient Storage über das jeweilig Plugin zu beanspruchen.
+
+----
+
+### Hands-on
+
+```shell
+kubectl apply -f basic_pvc.yaml
+kubectl apply -f basic_pvc_pod.yaml
+kubectl get pv
+kubectl pvc
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+
+### Hands-on
+
+- Sorge dafür das deine Datenbank &amp; Gitea ihre Daten persistieren.
+- Nutze hierzu die `local-path` (default) StorageClass von k3s.
+
+----
 
 ## Kubernetes Deployments & ReplicaSets
 
@@ -584,7 +676,7 @@ Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 
 ----
 
-### Deployments - Hands-on
+### Hands-on
 
 Erstelle ein Gitea-Server Deployment
 
@@ -594,8 +686,7 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 
 - Schaue Dir das Deployment mit `kubectl get` an
 - Was fällt Dir bezüglich der Labels auf?
-- Änder den Wert von `spec.replicas`. Was passiert?
-
+- Ändere den Wert von `spec.replicas`. Was passiert?
 
 ---
 
@@ -607,7 +698,6 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
   - (z.B. Deployments, Services)
   - nicht für cluster-weite Objekte (z.B. StorageClass, Nodes, PersistentVolumes).
   - ein Namespace selbst ist ein cluster-weites Objekt.
-
 
 ----
 
@@ -641,7 +731,7 @@ Note:
 
 ----
 
-### Kubernetes Namespaces Hands-On
+### Hands-on
 
 Welchen Namespace nutzt du?
 
@@ -651,7 +741,7 @@ kubectl config view --minify | less
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
----
+----
 
 ### Kubernetss Namespaces Hands-On
 
@@ -660,34 +750,53 @@ kubectl config view --minify | less
   - in welchem Namespace befand sie sich?
 - Benutze den `namespace` Parameter im Manifest.
 
+---
 
-----
+## Kubernetes Intermezzo
 
-## Kuberentes Intermezzo: K8S-Abkürzungen
+### K8S-Abkürzungen
 
 - Pod: po
 - Service: svc
 - ConfigMap: cm
 - Namespace: ns
+- PersistentVolume: pvc
+- [...]
+
+----
+
+### Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
-
 ---
+
+## Fragen
+
+Notes:
+- wir haben bisher nur an der Oberfläche gekratzt
+- Nächste Punkte:
+  - Resource Limits
+  - Container ohne root-Rechte
+  - read-only containers, z.B. mit emptyDir
+
+----
 
 ## Optional: Kubernetes StatefulSet
 
----
+----
 
 ## Optional: Kubernetes DaemonSet
 
+----
 
----
+## Optional: Vertiefung PersitentVolumes & Claims
+
+----
 
 ## Optional: Einblick in Kustomize
 
-
----
+----
 
 ## Optional: Praktische Tools
 
