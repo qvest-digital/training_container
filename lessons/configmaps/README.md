@@ -24,12 +24,12 @@ variable has to be set.
 
 ## Tasks
 
-* Modify the Pod's configuration and let it mount the contents of
+1. Modify the Pod's configuration and let it mount the contents of
   the configmap inside of `/etc/gitea/conf`.
-* Set the environment variable `GITEA__security__INSTALL_LOCK=true`
+2. Set the environment variable `GITEA__security__INSTALL_LOCK=true`
   inside of the Gitea pod by using the `envFrom` field inside the
   Gitea container, Use the `gitea-env` configMap to store the value.
-* Change the name of the APP_NAME of the Gitea installation to
+3. Change the name of the APP_NAME of the Gitea installation to
   "Gitea (Qvest-Kube Workshop)" (or any other name you like)
 
 ## Questions
