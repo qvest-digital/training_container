@@ -2,7 +2,8 @@
 
 set -eEo pipefail
 
+
 compose_cmd=${COMPOSE_CMD:-'podman-compose'}
 
 $compose_cmd down
-$compose_cmd up --build -d --remove-orphans
+WORKSHOP=${1:?"\$1 no workshop choosen set to: kubernetes, container"}; $compose_cmd up --build -d --remove-orphans
