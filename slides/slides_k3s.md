@@ -386,13 +386,24 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-ku
 - JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
   - `apiVersion` ([API + "/"] + Version)
   - `kind`
-  - `spec.name`
-  - (`spec.namespace`)
+  - `metadata.name`
+  - (`metadata.namespace`)
 - Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
 
 Note:
 - Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
   einfach wegfliegen.
+
+----
+
+### YAML Ain't Markup Language (YAML)
+
+(Originally, YAML WAS said to mean *Yet Another Markup Language*)
+
+You will have to learn YAML and get to know about some of
+it's quirks to find your way around Kubernetes!
+
+[YAML specification v1.2.2](https://yaml.org/spec/1.2.2/)
 
 ----
 
@@ -449,6 +460,7 @@ kubectl apply -f ./basic_mariadb_service.yaml
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
+
 ### Hands-on
 
 - Was ist der Unterschied zwischen den verschiedenen Service-Typen?
@@ -457,6 +469,19 @@ kubectl apply -f ./basic_mariadb_service.yaml
 - Was passiert, wenn ein Service unterschiedliche Pods selektiert?
 - Wie kann man überprüfen, welche Pods ein Service selektiert?
 - Wie können Pods mit Hilfe von Services miteinander kommunizieren?
+
+----
+
+#### Which pods does a service select?
+
+... it's complicated ...
+
+```sh
+SERVICE_NAME="<...>"
+kubectl get endpoints "${SERVICE_NAME}" -o=jsonpath='{.subsets[*].addresses[*].ip}' \
+| tr ' ' '\n' \
+| kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'
+```
 
 ---
 
@@ -657,7 +682,7 @@ kubectl pvc
 - Sorge dafür das deine Datenbank &amp; Gitea ihre Daten persistieren.
 - Nutze hierzu die `local-path` (default) StorageClass von k3s.
 
-----
+---
 
 ## Kubernetes Deployments & ReplicaSets
 
