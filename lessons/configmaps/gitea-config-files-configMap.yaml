@@ -1,0 +1,20 @@
+---
+# Use this ConfigMap to change the behavior of a Gitea instance.
+# See
+# * https://docs.gitea.com/administration/config-cheat-sheet
+#   (Configuration Cheat Sheet)
+# * https://github.com/go-gitea/gitea/blob/main/custom/conf/app.example.ini
+#   (Example configuration file with default values set)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    part-of: qvest-kube-workshop
+  name: gitea-config-files
+data:
+  app.ini: |
+    APP_NAME = Gitea (Qvest-Kube Workshop)
+    ;; see https://docs.gitea.com/administration/config-cheat-sheet for additional documentation.
+    [database]
+    DB_TYPE=sqlite3
+    PATH=/data/gitea/database
