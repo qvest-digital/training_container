@@ -1,0 +1,10 @@
+---
+# Use this ConfigMap to set environment variables.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    part-of: qvest-kube-workshop
+  name: gitea-env
+data: {}
+  # Place your environment variables here. ;-)

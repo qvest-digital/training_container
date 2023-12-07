@@ -2,6 +2,12 @@
 
 <img src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
 
+In this chapter you will learn how to create and use ConfigMaps.
+
+----
+
+## ConfigMaps
+
 **Was ist eine ConfigMap?**
 
 * Key-value storage
@@ -12,26 +18,9 @@
 ## Anlegen einer ConfigMap
 
 ```sh
-kubectl apply -f examples/k3s/gitea/configmap.yml
+kubectl apply -f
 
 ```
-
-Note:
-  - Ziel: Konfiguriere Database mit PW als Secret
-
-### Hands-on
-
-1. Konfiguriere Gitea so, dass es beim Start direkt die PostgreSQL Datenbank nutzt.
-1. Erweitere daf&uuml;r die erstellte Configmaps.
-
-[Gitea Docs](https://docs.gitea.com/)
-
-----
-
-## Hands-on
-
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
-
 ----
 
 ## ConfigMaps - Änderungen
@@ -44,7 +33,58 @@ Note:
 
 ----
 
-## ConfigMaps - Summary
+## Hands-on ConfigMaps
+
+We want to fully automate the installation process of Gitea.
+Goal is to pre-configure everything using Kubernetes manifests.
+
+Use the old deployed yaml files of Gitea. If not at hand see [here](tbd)
+
+### Goal
+
+Make sure that Gitea will be immediately up and running when started
+
+----
+
+## Hands-on - Background
+
+Gitea stores its configuration in a file called `app.ini` which
+is usually located in `/etc/gitea/conf`.
+
+To instruct Gitea to use the configuration file without a prior
+prompt to the user to finalize the configuration, an environment
+variable has to be set.
+
+[Gitea Docs](https://docs.gitea.com/)
+
+----
+
+## Hands-on - Tasks
+
+1. Modify the Pod's configuration and let it mount the contents of
+  the configmap inside of `/etc/gitea/conf`.
+2. Set the environment variable `GITEA__security__INSTALL_LOCK=true`
+  inside of the Gitea pod by using the `envFrom` field inside the
+  Gitea container, Use the `gitea-env` configMap to store the value.
+3. Change the name of the APP_NAME of the Gitea installation to
+  "Gitea (Qvest-Kube Workshop)" (or any other name you like)
+
+----
+
+## Hands-on - Questions
+
+- What happens to the Pod if the ConfigMap is being changed
+  while the Pod is still running?
+
+----
+
+## Hands-on
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+
+## Summary
 
 * ConfigMaps sind Key-value stores
 * Gut für: die Ablage von Umgebungsvariablen (.env File)
