@@ -829,12 +829,11 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 
 # Kubernetes Namespaces
 
-- Kubernetes verwendet Namespaces, um Ressourcen innerhalb eines Clusters zu isolieren.
-- Die Namen von Ressourcen müssen innerhalb eines Namespaces eindeutig sein, aber nicht über Namespaces hinweg.
-- Die Namespace-basierte Begrenzung gilt nur für namespaced Objekte
-  - (z.B. Deployments, Services)
-  - nicht für cluster-weite Objekte (z.B. StorageClass, Nodes, PersistentVolumes).
-  - ein Namespace selbst ist ein cluster-weites Objekt.
+- Kubernetes uses namespaces to separate or isolate resources inside a single cluster.
+- Resource names inside the same namespace need to be unique.
+- There are cluster-wide Objects available that are not taking care of namespace boundaries.
+  - e.g. StorageClass, Nodes, PersistentVolumes or Namespaces itself
+- set with: `metadata.namespace` inside a yaml
 
 ----
 
@@ -843,6 +842,7 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 ```sh
 kubectl get namespace
 kubectl namespace create gitea
+kubectl get pods --namespace=kube-system
 ```
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -866,27 +866,34 @@ Note:
 
 ([Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#initial-namespaces))
 
+---
+
+## Hands-on Namespaces
+
+We want to move all Gitea components into there own namespace.
+
+Start with your old deployed yaml files. If not in hand use [these](tbd).
+
+### Goal
+
+The whole Gitea deployment with all resources are moved into the namespace "gitea"
+
+----
+
+## Hands-on - Tasks
+
+1. Find out in which namespace your Gitea instance is deployed to.
+2. Which namespace is your kubectl using by default?
+   1.  `kubectl config view --minify | less`
+3. Create a namespace "gitea"
+4. Add the `namespace` keyword to all corresponding resources.
+5. Try to deploy your resources and check if they are inside the namespace "gitea"
+
 ----
 
 ## Hands-on
 
-Welchen Namespace nutzt du?
-
-```shell
-kubectl config view --minify | less
-```
-
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
-
-----
-
-## Hands-On
-
-- Verschiebe deine Gitea Application in den Namespace SVC.
-- Entferne deine vorhereige Application
-  - in welchem Namespace befand sie sich?
-- Benutze den `namespace` Parameter im Manifest.
-
 ---
 
 # Optionals
