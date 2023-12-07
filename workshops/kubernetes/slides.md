@@ -63,6 +63,27 @@ Regeln:
 - Optional: Kubernetes DaemonSet
 - Optional: Einblick in Kustomize
 - Optional: Praktische Tools
+---
+
+# Einführung in Kubernetes auf Basis von k3s
+
+ - Schulung für grundlegende Kenntnisse über Kubernetes
+ - Fokus auf Einführung in Kubernetes und wichtige Konzepte
+ - Praktisches Beispiel: Bereitstellung von Gitea mit PostgreSQL in Kubernetes
+
+----
+
+## Inhaltsverzeichnis
+
+- Was ist Kubernetes?
+- Architektur von Kubernetes
+- Architektur-Unterschiede zwischen k8s und k3s
+- Einführung in die Kommandozeile: kubectl
+- Basis Ressourcen &amp; grundlegende Konzepte
+- Optional: Kubernetes StatefulSet
+- Optional: Kubernetes DaemonSet
+- Optional: Einblick in Kustomize
+- Optional: Praktische Tools
 
 ---
 
@@ -128,10 +149,9 @@ Source: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-w
 <div><img src="./images/k3s-architecture-1.png" style="height: 400px;"></div>
 
 Source: [k3s Dokumentation](https://docs.k3s.io/architecture)
-
 ---
 
-## kubectl
+# kubectl
 
 Unser Tool für den Hands-on Workshop
 
@@ -215,9 +235,41 @@ kubectl apply -f ./examples/k3s/gitea/basic_pod.yaml
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
+---
+
+# Kubernetes Pods
+
+<!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/dolphins.jpg" -->
+
+<div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
+
+**What is a pod?**
+
+<q cite="https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod">Pods are herds of marine mammals including whales, dolphins, walruses and seals.</q>
+
+Source: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod)
+
 ----
 
-### Kubernetes Pods - describe
+## Examples for this workshop?
+
+Go get 'em: `https://github.com/qvest-digital/training_container`
+
+----
+
+## Kubernetes Pods - apply
+
+Create a "gitea" pod by using the provided YAML file
+
+```sh
+kubectl apply -f ./examples/k3s/gitea/basic_pod.yaml
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+
+## Kubernetes Pods - describe
 
 
 ```sh
@@ -228,7 +280,7 @@ kubectl describe pods/gitea | less
 
 ----
 
-### Kubernetes Pods - get
+## Kubernetes Pods - get
 
 Have a look at the created pod
 
@@ -246,7 +298,7 @@ Note:
 
 ----
 
-### Kubernetes Pods - logs
+## Kubernetes Pods - logs
 
 Have a look at the log output
 
@@ -260,7 +312,7 @@ What is 'follow mode'?
 
 ----
 
-### Kubernetes Pods - port-forward
+## Kubernetes Pods - port-forward
 
 Use a port-forward to issue a HTTP request towards the pod
 
@@ -276,7 +328,7 @@ Note:
 
 ----
 
-### Hands-on
+## Hands-on
 
 1. Use a versioned tag or a SHA hash for the container image (don't use `latest`!)
 1. Delete the created pod
@@ -290,13 +342,13 @@ Additional stuff:
 
 ----
 
-### Hands-on
+## Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
 
-### Kubernetes Pods - Summary
+## Summary
 
 - Basic knowledge about Kubernetes YAML files
 - Pod management
@@ -308,14 +360,128 @@ Additional stuff:
 
 ---
 
-## Kubernetes Labels &amp; Annotations
+# Kubernetes Ressurces
+
+*What is a kubernetes resource?*
+
+<q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
+
+Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+
+----
+
+## Storage of Kubernetes resources
+
+- JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
+  - `apiVersion` ([API + "/"] + Version)
+  - `kind`
+  - `metadata.name`
+  - (`metadata.namespace`)
+- Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
+
+Note:
+- Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
+  einfach wegfliegen.
+
+----
+
+## YAML Ain't Markup Language (YAML)
+
+(Originally, YAML WAS said to mean *Yet Another Markup Language*)
+
+You will have to learn YAML and get to know about some of
+it's quirks to find your way around Kubernetes!
+
+[YAML specification v1.2.2](https://yaml.org/spec/1.2.2/)
+
+----
+
+## Built-in: Basis-Ressoucen (v1)
+
+* `apiVersion: v1` (manchmal auch "core" genannt)
+* Kubernetes "v1"-Versprechen der vollständigen Abwärtskompatibilität
+
+## Built-in: Basis-Ressourcen (non-v1)
+
+Beispiele:
+
+ * Ingress API (`networking.k8s.io/v1/Ingress`)
+ * Horizontal Pod Autoscaling (`autoscaling/v2/HorizontalPodAutoscaler`)
+
+----
+
+## Custom Resources
+
+Kubernetes kann mit Hilfe von `Custom Resource Definitions` erweitert
+werden. (nicht im Scope des Teils des heutigen Workshops)
+
+---
+
+# Kubernetes Services
+
+<div><img src="./images/k8s-icons/resources/labeled/svc.svg" class="k8s-icon-large-centered"></div>
+
+**Was ist ein Service?**
+
+* DNS &amp; Cluster-internes Load balancing
+* Services ermöglichen Pods den Zugriff auf andere Pods
+
+----
+
+## Hands-on
+
+Erstelle einen Separaten MariaDB Pod mit einem vorgeschalteten Service
+
+```sh
+kubectl apply -f ./basic_mariadb_service.yaml
+```
+
+- Schaue Dir Service und Pod mit kubectl describe an
+- Nutze kubectl port-forward, um den Pod über den Service anzusprechen
+- Verbinde Gitea mit dem separaten PostreSQL Pod
+
+**ACHTUNG**: Port-forwarding funktioniert in der Praxis nicht so, wie man es erwartet!
+
+----
+
+## Hands-on
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
+----
+
+## Hands-on
+
+- Was ist der Unterschied zwischen den verschiedenen Service-Typen?
+- Wozu dienen die Selektoren der Services?
+- Was passiert, wenn zwei Services die gleichen Pods selektieren?
+- Was passiert, wenn ein Service unterschiedliche Pods selektiert?
+- Wie kann man überprüfen, welche Pods ein Service selektiert?
+- Wie können Pods mit Hilfe von Services miteinander kommunizieren?
+
+----
+
+## Which pods does a service select?
+
+... it's complicated ...
+
+```sh
+SERVICE_NAME="<...>"
+kubectl get endpoints "${SERVICE_NAME}" -o=jsonpath='{.subsets[*].addresses[*].ip}' \
+| tr ' ' '\n' \
+| kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'
+```
+
+---
+
+# Kubernetes Labels &amp; Annotations
 
 - What are kubernetes labels and annotations?
 - How do you create/attache labels?
 
 ----
 
-### Hands-on
+## Hands-on
 
 - Look at the labels of the gitea pod
   - `kubectl get pods --show-labels`
@@ -329,7 +495,7 @@ Note:
 
 ----
 
-### Recommended Labels
+## Recommended Labels
 
 * `app.kubernetes.io/name`
 * `app.kubernetes.io/instance`
@@ -342,7 +508,7 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/overview/
 
 ----
 
-### Example of using Recommended labels
+## Example of using Recommended labels
 
 ```yaml
 # This is an excerpt
@@ -366,126 +532,12 @@ interacts with a given pod by adding a special annotation:
 ```yaml
 # This is an excerpt
 metadata:
-  annotations:  
+  annotations:
     kubectl.kubernetes.io/default-container: name-of-the-container
 ```
 ---
 
-## Kubernetes Ressurces
-
-*What is a kubernetes resource?*
-
-<q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
-
-Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-
-----
-
-### Storage of Kubernetes resources
-
-- JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
-  - `apiVersion` ([API + "/"] + Version)
-  - `kind`
-  - `metadata.name`
-  - (`metadata.namespace`)
-- Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
-
-Note:
-- Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
-  einfach wegfliegen.
-
-----
-
-### YAML Ain't Markup Language (YAML)
-
-(Originally, YAML WAS said to mean *Yet Another Markup Language*)
-
-You will have to learn YAML and get to know about some of
-it's quirks to find your way around Kubernetes!
-
-[YAML specification v1.2.2](https://yaml.org/spec/1.2.2/)
-
-----
-
-### Built-in: Basis-Ressoucen (v1)
-
-* `apiVersion: v1` (manchmal auch "core" genannt)
-* Kubernetes "v1"-Versprechen der vollständigen Abwärtskompatibilität
-
-### Built-in: Basis-Ressourcen (non-v1)
-
-Beispiele:
-
- * Ingress API (`networking.k8s.io/v1/Ingress`)
- * Horizontal Pod Autoscaling (`autoscaling/v2/HorizontalPodAutoscaler`)
-
-----
-
-### Custom Resources
-
-Kubernetes kann mit Hilfe von `Custom Resource Definitions` erweitert
-werden. (nicht im Scope des Teils des heutigen Workshops)
-
----
-
-## Kubernetes Services
-
-<div><img src="./images/k8s-icons/resources/labeled/svc.svg" class="k8s-icon-large-centered"></div>
-
-**Was ist ein Service?**
-
-* DNS &amp; Cluster-internes Load balancing
-* Services ermöglichen Pods den Zugriff auf andere Pods
-
-----
-
-### Hands-on
-
-Erstelle einen Separaten MariaDB Pod mit einem vorgeschalteten Service
-
-```sh
-kubectl apply -f ./basic_mariadb_service.yaml
-```
-
-- Schaue Dir Service und Pod mit kubectl describe an
-- Nutze kubectl port-forward, um den Pod über den Service anzusprechen
-- Verbinde Gitea mit dem separaten PostreSQL Pod
-
-**ACHTUNG**: Port-forwarding funktioniert in der Praxis nicht so, wie man es erwartet!
-
-----
-
-### Hands-on
-
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
-
-----
-
-### Hands-on
-
-- Was ist der Unterschied zwischen den verschiedenen Service-Typen?
-- Wozu dienen die Selektoren der Services?
-- Was passiert, wenn zwei Services die gleichen Pods selektieren?
-- Was passiert, wenn ein Service unterschiedliche Pods selektiert?
-- Wie kann man überprüfen, welche Pods ein Service selektiert?
-- Wie können Pods mit Hilfe von Services miteinander kommunizieren?
-
-----
-
-#### Which pods does a service select?
-
-... it's complicated ...
-
-```sh
-SERVICE_NAME="<...>"
-kubectl get endpoints "${SERVICE_NAME}" -o=jsonpath='{.subsets[*].addresses[*].ip}' \
-| tr ' ' '\n' \
-| kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'
-```
-
----
-
-## Kubernetes ConfigMaps
+# Kubernetes ConfigMaps
 
 <img src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
 
@@ -496,7 +548,7 @@ kubectl get endpoints "${SERVICE_NAME}" -o=jsonpath='{.subsets[*].addresses[*].i
 
 ----
 
-### Anlegen einer ConfigMap
+## Anlegen einer ConfigMap
 
 ```sh
 kubectl apply -f examples/k3s/gitea/configmap.yml
@@ -515,13 +567,13 @@ Note:
 
 ----
 
-### Hands-on
+## Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
 
-### Kubernetes ConfigMaps - Änderungen
+## ConfigMaps - Änderungen
 
 * ConfigMaps *können* als "`immutable`* markiert werden
   (seit Kubernetes 1.21 ist das ein stabiles Feature, also relativ neu)
@@ -531,7 +583,7 @@ Note:
 
 ----
 
-### Kubernetes ConfigMaps - Summary
+## ConfigMaps - Summary
 
 * ConfigMaps sind Key-value stores
 * Gut für: die Ablage von Umgebungsvariablen (.env File)
@@ -542,7 +594,7 @@ Note:
 
 ---
 
-## Kubernetes Secrets
+# Kubernetes Secrets
 
 <div><img src="./images/k8s-icons/resources/labeled/secret.svg" class="k8s-icon-large-centered"></div>
 
@@ -550,7 +602,7 @@ Note:
 
 ----
 
-### Kubernetes Secrets - base64-Daten
+## Secrets - base64-Daten
 
 ```yaml
 apiVersion: v1
@@ -564,7 +616,7 @@ data:
 
 ----
 
-### Kubernetes Secrets - Anlegen eines Secrets
+## Secrets - Anlegen eines Secrets
 
 ```sh
 kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
@@ -574,7 +626,7 @@ kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
 
 ----
 
-### Kubernetes Secrets - Typen
+## Secrets - Typen
 
 * `Opaque` (am häufigsten verwendet)
 * `kubernetes.io/tls`
@@ -592,7 +644,7 @@ Notes:
 
 ----
 
-### Kubernetes Secrets - stringData
+## Secrets - stringData
 
 Vereinfachtes Anlegen von Secrets mit einer "write only" Property:
 
@@ -610,7 +662,7 @@ stringData:
 
 ----
 
-### Kubernetes Secrets - Zugriff per API
+## Secrets - Zugriff per API
 
 * Shell scripting mit `kubectl`, `jq` und `base64`
 
@@ -621,11 +673,10 @@ Notes:
 - | jq ... | base64
 - -o go-template='{{ .data.??? }}' ...
 - -o jsonpath='{.data.???}'
-- ...
 
 ----
 
-### Kubernetes Secrets - Summary
+## Secrets - Summary
 
 * Secrets funktionieren im Wesentichen wie ConfigMaps
 * Secrets haben einen Typen (default: `Opaque`)
@@ -634,7 +685,7 @@ Notes:
 
 ---
 
-## Kubernetes Persistence
+# Kubernetes Persistence
 
 <div>
   <img src="./images/k8s-icons/resources/labeled/pv.svg" class="k8s-icon-large-centered">
@@ -645,7 +696,7 @@ PersistenceVolumes &amp; PersistentVolumeClaims
 
 ----
 
-### Persistence Volumes
+## Persistence Volumes
 
 - Der Storage in Pods ist grundsätzlich "ephemeral" (*kurzlebig*)
   - Restart oder Crash führen zu einem Verlust der Daten
@@ -657,14 +708,14 @@ Um dies zu verhindern gibt es verschiedene Storage Provider
 
 ----
 
-### LocalStorageProvider in k3s
+## LocalStorageProvider in k3s
 
 Ein `PersitentVolumeClaim` ist ein User-spezifischer "Storage Request",
 der dazu dient Storage über das jeweilig Plugin zu beanspruchen.
 
 ----
 
-### Hands-on
+## Hands-on
 
 ```shell
 kubectl apply -f basic_pvc.yaml
@@ -677,14 +728,15 @@ kubectl pvc
 
 ----
 
-### Hands-on
+## Hands-on
 
 - Sorge dafür das deine Datenbank &amp; Gitea ihre Daten persistieren.
 - Nutze hierzu die `local-path` (default) StorageClass von k3s.
 
 ---
+---
 
-## Kubernetes Deployments & ReplicaSets
+# Kubernetes Deployments & ReplicaSets
 
 <div>
   <img src="./images/k8s-icons/resources/labeled/rs.svg" class="k8s-icon-large-centered">
@@ -696,7 +748,7 @@ Notes:
 
 ----
 
-### Was ist ein ReplicaSet?
+## Was ist ein ReplicaSet?
 
 <q cite="">A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.</q>
 
@@ -704,7 +756,7 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 
 ----
 
-### Verwendung eines ReplicaSets
+## Verwendung eines ReplicaSets
 
 <q cite="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#when-to-use-a-replicaset">A ReplicaSet ensures that a specified number of pod replicas are running at any given time. However, a Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to Pods along with a lot of other useful features. Therefore, we recommend using Deployments instead of directly using ReplicaSets, unless you require custom update orchestration or don't require updates at all.</q>
 
@@ -712,7 +764,7 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 
 ----
 
-### Was ist ein Deployment?
+## Was ist ein Deployment?
 
 <q cite="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">
 A Deployment provides declarative updates for Pods and ReplicaSets.</q>
@@ -721,7 +773,7 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 
 ----
 
-### Hands-on
+## Hands-on
 
 Erstelle ein Gitea-Server Deployment
 
@@ -735,7 +787,7 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 
 ---
 
-## Kubernetes Namespaces
+# Kubernetes Namespaces
 
 - Kubernetes verwendet Namespaces, um Ressourcen innerhalb eines Clusters zu isolieren.
 - Die Namen von Ressourcen müssen innerhalb eines Namespaces eindeutig sein, aber nicht über Namespaces hinweg.
@@ -746,7 +798,7 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 
 ----
 
-### Kubernetes Namespaces
+## Namespaces
 
 ```sh
 kubectl get namespace
@@ -765,7 +817,7 @@ Note:
 
 ----
 
-### Kubernetes Namespaces - Defaults
+## Namespaces - Defaults
 
 - default
 - kube-node-lease
@@ -776,7 +828,7 @@ Note:
 
 ----
 
-### Hands-on
+## Hands-on
 
 Welchen Namespace nutzt du?
 
@@ -788,7 +840,7 @@ kubectl config view --minify | less
 
 ----
 
-### Kubernetss Namespaces Hands-On
+## Hands-On
 
 - Verschiebe deine Gitea Application in den Namespace SVC.
 - Entferne deine vorhereige Application
@@ -797,54 +849,13 @@ kubectl config view --minify | less
 
 ---
 
-## Kubernetes Intermezzo
+# Optionals
 
-### K8S-Abkürzungen
-
-- Pod: po
-- Service: svc
-- ConfigMap: cm
-- Namespace: ns
-- PersistentVolume: pvc
-- [...]
-
-----
-
-### Hands-on
-
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
-
----
-
-## Fragen
-
-Notes:
-- wir haben bisher nur an der Oberfläche gekratzt
-- Nächste Punkte:
-  - Resource Limits
-  - Container ohne root-Rechte
-  - read-only containers, z.B. mit emptyDir
-
-----
-
-## Optional: Kubernetes StatefulSet
-
-----
-
-## Optional: Kubernetes DaemonSet
-
-----
-
-## Optional: Vertiefung PersitentVolumes & Claims
-
-----
-
-## Optional: Einblick in Kustomize
-
-----
-
-## Optional: Praktische Tools
-
+- Kubernetes StatefulSet
+- Kubernetes DaemonSet
+- DeepDive PersitentVolumes & Claims
+- `Kustomize`
+- Usefull Tools
  - [k9s](https://k9scli.io/)
  - [kubectx / kubens](https://github.com/ahmetb/kubectx)
  - [popeye](https://github.com/derailed/popeye)
