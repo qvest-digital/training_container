@@ -96,7 +96,7 @@ Notes:
 
 ----
 
-### Architektur von Kubernetes (K8S)
+### Kubernetes Architecture (K8S)
 
 - Master-Knoten
 - Worker-Knoten
@@ -105,11 +105,11 @@ Notes:
 - Weitere Komponenten
 
 ----
-### Kubernetes-Komponenten (Diagramm)
+### Kubernetes Components
 
 <div><img src="./images/k8s-architecture-1.png" style="height: 400px;"></div>
 
-Quelle: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-works/)
+Source: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-works/)
 
 ----
 
@@ -127,7 +127,7 @@ Quelle: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-w
 
 <div><img src="./images/k3s-architecture-1.png" style="height: 400px;"></div>
 
-Quelle: [k3s Dokumentation](https://docs.k3s.io/architecture)
+Source: [k3s Dokumentation](https://docs.k3s.io/architecture)
 
 ---
 
@@ -141,7 +141,7 @@ Unser Tool für den Hands-on Workshop
 
 ----
 
-### kubectl - Funktionstests
+### kubectl - Smoke test
 
 ```sh
 kubectl version
@@ -154,7 +154,7 @@ Note:
 
 ----
 
-### Autocomplete für kubectl
+### Code-completion for kubectl
 
 
 <!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/magician-1920x1080.png" -->
@@ -173,15 +173,15 @@ Note:
   echo 'kubectl completion fish | source' >> ~/.config/fish/config.fish
   ```
 
-Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete)
+Source: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete)
 
 ----
 
-### kubectl - Imperative/Dekalarative Nutzung
+### kubectl - Imperative/Decalarative Usage
 
-* Imperative Nutzung für einfache / schnelle Aufgaben
-* Reproduzierbarkeit mit deklarativer API einfacher
-* Hier nutzen wir *fast* ausschließlich die deklarative API
+* Imperative usage for quick and easy tasks
+* Reproducability much easier when using declarative API
+* In this workshop we will be using  *nearly* only the declarative API
 
 ---
 
@@ -191,17 +191,23 @@ Quelle: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 <div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
 
-**Was ist ein Pod?**
+**What is a pod?**
 
 <q cite="https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod">Pods are herds of marine mammals including whales, dolphins, walruses and seals.</q>
 
-Quelle: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod)
+Source: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod)
+
+----
+
+### Examples for this workshop?
+
+Go get 'em: `https://github.com/qvest-digital/training_container`
 
 ----
 
 ### Kubernetes Pods - apply
 
-Erstelle einen "gitea" Pod mit Hilfe der beigelegeten YAML Datei
+Create a "gitea" pod by using the provided YAML file
 
 ```sh
 kubectl apply -f ./examples/k3s/gitea/basic_pod.yaml
@@ -224,7 +230,7 @@ kubectl describe pods/gitea | less
 
 ### Kubernetes Pods - get
 
-Schaue dir den erstellen Pod im Cluster an
+Have a look at the created pod
 
 ```sh
 kubectl get pods/gitea
@@ -242,7 +248,7 @@ Note:
 
 ### Kubernetes Pods - logs
 
-Schaue dir die logs von Gitea an
+Have a look at the log output
 
 ```sh
 kubectl logs pods/gitea
@@ -250,17 +256,17 @@ kubectl logs pods/gitea
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
-Wie funktioniert der "Follow Mode"?
+What is 'follow mode'?
 
 ----
 
 ### Kubernetes Pods - port-forward
 
-Nutze port-forward, um einen HTTP-Request gegen den Pod abzusetzen
+Use a port-forward to issue a HTTP request towards the pod
 
 ```sh
-LOCAL_PORT=8080 # Setze diese Variable entsprechend Deinem Gusto. ;-)
-kubectl port-forward pods/gitea ${LOCAL_PORT}:80
+LOCAL_PORT=8080 # Set this variable to something that works for you. ;-)
+kubectl port-forward pods/gitea ${LOCAL_PORT}:3000
 ```
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -272,12 +278,13 @@ Note:
 
 ### Hands-on
 
-1. Nutze einen versionierten Tag oder HASH für das Image (nicht latest!)
-1. Lösche den erstellten Pod wieder.
-1. Starte eine Gitea mit PostgreSQL im selben Pod
+1. Use a versioned tag or a SHA hash for the container image (don't use `latest`!)
+1. Delete the created pod
+1. Start gitea and a PostgreSQL database in the same pod
 
-Zusatzaufgabe:
-1. Konfiguriere die Datenbank und Gitea mittels `spec.containers.*.env`
+Additional stuff:
+1. Configure the database and gitea itself by using `spec.containers.*.env`
+1. Show logs of *all* containers: `kubectl logs pods/gitea --all-containers --prefix`
 
 [Kubernetes Docs](https://kubernetes.io/)
 
@@ -289,12 +296,12 @@ Zusatzaufgabe:
 
 ----
 
-### Kubernetes Pods - Zusammenfassung
+### Kubernetes Pods - Summary
 
-- Einblick in kubernetes YAML files
-- Pod Verwaltung
-- Pod Environment
-- Grundlagen `kubectl`
+- Basic knowledge about Kubernetes YAML files
+- Pod management
+- Pod environment
+- Basics of `kubectl`
   - apply / delete
   - describe
   - logs
@@ -303,16 +310,16 @@ Zusatzaufgabe:
 
 ## Kubernetes Labels &amp; Annotations
 
-- Wozu sind Labels und Annotations gut?
-- Wie erstellt man Labels?
+- What are kubernetes labels and annotations?
+- How do you create/attache labels?
 
 ----
 
-## Hands-on
+### Hands-on
 
-- Schaue Dir die Labels von Gitea an
+- Look at the labels of the gitea pod
   - `kubectl get pods --show-labels`
-- Lass Dir Pods anhand von ausgesuchten Labels anzeigen
+- List pods using a label selector
   - `kubectl get pods -l <...>`
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
@@ -322,7 +329,7 @@ Note:
 
 ----
 
-### Standard-Labels
+### Recommended Labels
 
 * `app.kubernetes.io/name`
 * `app.kubernetes.io/instance`
@@ -331,11 +338,11 @@ Note:
 * `app.kubernetes.io/part-of`
 * `app.kubernetes.io/managed-by`
 
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)
+Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)
 
 ----
 
-### Standard-Labels: Beispiel
+### Example of using Recommended labels
 
 ```yaml
 # This is an excerpt
@@ -349,30 +356,54 @@ metadata:
     app.kubernetes.io/managed-by: helm
 ```
 
+----
+
+# Annotations - Default container
+
+You can specify the default container (`-c`) used whenever `kubectl`
+interacts with a given pod by adding a special annotation:
+
+```yaml
+# This is an excerpt
+metadata:
+  annotations:  
+    kubectl.kubernetes.io/default-container: name-of-the-container
+```
 ---
 
-## Kubernetes Ressourcen
+## Kubernetes Ressurces
 
-*Was sind Kubernetes-Ressourcen?*
+*What is a kubernetes resource?*
 
 <q cite="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">A resource is an endpoint in the Kubernetes API that stores a collection of API objects of a certain kind; for example, the built-in pods resource contains a collection of Pod objects.</q>
 
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 
 ----
 
-### Ablage von Kubernetes-Ressourcen
+### Storage of Kubernetes resources
 
 - JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
   - `apiVersion` ([API + "/"] + Version)
   - `kind`
-  - `spec.name`
-  - `spec.namespace`
+  - `metadata.name`
+  - (`metadata.namespace`)
 - Auch wenn meistens YAML-Dateien editiert werden, wird doch immer JSON gespeichert
 
 Note:
 - Darauf hinweisen, dass alle YAML-spezifischen Features wie Kommentare, Anchors, etc.
   einfach wegfliegen.
+
+----
+
+### YAML Ain't Markup Language (YAML)
+
+(Originally, YAML WAS said to mean *Yet Another Markup Language*)
+
+You will have to learn YAML and get to know about some of
+it's quirks to find your way around Kubernetes!
+
+[YAML specification v1.2.2](https://yaml.org/spec/1.2.2/)
 
 ----
 
@@ -429,6 +460,7 @@ kubectl apply -f ./basic_mariadb_service.yaml
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
 
 ----
+
 ### Hands-on
 
 - Was ist der Unterschied zwischen den verschiedenen Service-Typen?
@@ -437,6 +469,19 @@ kubectl apply -f ./basic_mariadb_service.yaml
 - Was passiert, wenn ein Service unterschiedliche Pods selektiert?
 - Wie kann man überprüfen, welche Pods ein Service selektiert?
 - Wie können Pods mit Hilfe von Services miteinander kommunizieren?
+
+----
+
+#### Which pods does a service select?
+
+... it's complicated ...
+
+```sh
+SERVICE_NAME="<...>"
+kubectl get endpoints "${SERVICE_NAME}" -o=jsonpath='{.subsets[*].addresses[*].ip}' \
+| tr ' ' '\n' \
+| kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'
+```
 
 ---
 
@@ -486,7 +531,7 @@ Note:
 
 ----
 
-### Kubernetes ConfigMaps - Zusammenfassung
+### Kubernetes ConfigMaps - Summary
 
 * ConfigMaps sind Key-value stores
 * Gut für: die Ablage von Umgebungsvariablen (.env File)
@@ -539,7 +584,7 @@ kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
 
 Ein leerer `spec.type` ist gleichbedeutend mit `spec.type=Opaque`
 
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/configuration/secret/)
+Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/configuration/secret/)
 
 Notes:
 - Neue types können durch AdmissionControls in Form einer
@@ -580,7 +625,7 @@ Notes:
 
 ----
 
-### Kubernetes Secrets - Zusammenfassung
+### Kubernetes Secrets - Summary
 
 * Secrets funktionieren im Wesentichen wie ConfigMaps
 * Secrets haben einen Typen (default: `Opaque`)
@@ -637,7 +682,7 @@ kubectl pvc
 - Sorge dafür das deine Datenbank &amp; Gitea ihre Daten persistieren.
 - Nutze hierzu die `local-path` (default) StorageClass von k3s.
 
-----
+---
 
 ## Kubernetes Deployments & ReplicaSets
 
@@ -655,7 +700,7 @@ Notes:
 
 <q cite="">A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.</q>
 
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
+Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
 
 ----
 
@@ -663,7 +708,7 @@ Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 
 <q cite="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#when-to-use-a-replicaset">A ReplicaSet ensures that a specified number of pod replicas are running at any given time. However, a Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to Pods along with a lot of other useful features. Therefore, we recommend using Deployments instead of directly using ReplicaSets, unless you require custom update orchestration or don't require updates at all.</q>
 
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#when-to-use-a-replicaset)
+Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#when-to-use-a-replicaset)
 
 ----
 
@@ -672,7 +717,7 @@ Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 <q cite="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">
 A Deployment provides declarative updates for Pods and ReplicaSets.</q>
 
-Quelle: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
 ----
 
