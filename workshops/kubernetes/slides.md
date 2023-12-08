@@ -827,6 +827,9 @@ kubectl apply -f ./ext_gitea_server_deployment.yaml
 
 ---
 
+# Kubernetes StatefulSet
+---
+
 # Kubernetes Namespaces
 
 - Kubernetes uses namespaces to separate or isolate resources inside a single cluster.
