@@ -48,6 +48,10 @@ revealOptions:
 
 ---
 
+!INCLUDE "./chapters/91_statefulsets/slides.md"
+
+---
+
 !INCLUDE "./chapters/100_namespaces/slides.md"
 
 ---
