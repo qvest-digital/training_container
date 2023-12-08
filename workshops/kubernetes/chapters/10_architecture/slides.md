@@ -82,3 +82,8 @@ Source: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-w
 <div><img src="./images/k3s-architecture-1.png" style="height: 400px;"></div>
 
 Source: [k3s Dokumentation](https://docs.k3s.io/architecture)
+
+----
+
+### When to use Kubernetes and when not
+
