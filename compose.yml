@@ -10,7 +10,7 @@ services:
       - "35729:35729" # Live-reload
       - "8123:1948"   # HTTP contents
     volumes:
-      - ${PWD}/slides:/slides:Z
+      - ${PWD}/workshops/${WORKSHOP:-kubernetes}:/slides:Z
     command:
     - /slides
     - --theme="theme.css"

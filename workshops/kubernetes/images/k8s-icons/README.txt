@@ -1,0 +1,1 @@
+Source: https://github.com/kubernetes/community/tree/master/icons

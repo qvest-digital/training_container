@@ -1,0 +1,84 @@
+---
+revealOptions:
+  transition: fade
+
+---
+
+!INCLUDE "./chapters/00_beginning/slides.md"
+
+---
+
+!INCLUDE "./chapters/10_architecture/slides.md"
+
+---
+
+!INCLUDE "./chapters/20_kubectl/slides.md"
+
+---
+
+!INCLUDE "./chapters/30_pods/slides.md"
+
+---
+
+!INCLUDE "./chapters/35_resources/slides.md"
+
+---
+
+!INCLUDE "./chapters/40_services/slides.md"
+
+---
+
+!INCLUDE "./chapters/50_labels_annotations/slides.md"
+
+---
+
+!INCLUDE "./chapters/60_configmaps/slides.md"
+
+---
+
+!INCLUDE "./chapters/70_secrets/slides.md"
+
+---
+
+!INCLUDE "./chapters/80_persistence/slides.md"
+
+---
+
+!INCLUDE "./chapters/90_deployments_replicaset/slides.md"
+
+---
+
+!INCLUDE "./chapters/91_statefulsets/slides.md"
+
+---
+
+!INCLUDE "./chapters/100_namespaces/slides.md"
+
+---
+
+# Optionals
+
+- Kubernetes StatefulSet
+- Kubernetes DaemonSet
+- DeepDive PersitentVolumes & Claims
+- `Kustomize`
+- Usefull Tools
+ - [k9s](https://k9scli.io/)
+ - [kubectx / kubens](https://github.com/ahmetb/kubectx)
+ - [popeye](https://github.com/derailed/popeye)
+
+
+---
+
+## Ausblick
+
+- Lifecycle und Lifecycle Management
+- Kubernetes Hardening
+- Kubernetes LoadBalancing
+- Controller / Operator
+  - CustomResources
+- Kubernetes unter der Haube
+
+---
+
+## Ende
