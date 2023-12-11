@@ -123,6 +123,17 @@ in the configuration file *or* an environment variable.
 
 ## Hands-on Questions
 
+* What is the difference between `envFrom` and `env.*.valueFrom` when
+  configuring a Pod template?
+* Can anybody with permissions to create/modify Pods in a namespace
+  access the secrets of the namespace itself?
+
+Notes:
+- Answer to 2nd question: it depends: direct access might have been
+  restricted (RBAC -> out of scope), but if it is possible for a user
+  to create pods, it is always possible to create a pod that mounts the
+  secret either as file or have it's values injected via env vars.
+
 ----
 
 ## Secrets - Summary

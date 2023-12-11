@@ -25,5 +25,10 @@ spec:
           value: mysql
         - name: GITEA__database__HOST
           value: gitea-database
-      # Set the environment variable GITEA__database__PASSWD using the value that has been stored
-      # within the secret
+
+        # WARNING! Using envFrom won't work here. Why?
+        # Set remaining required environment variable from secret:
+        # * GITEA__database__NAME
+        # * GITEA__database__USER
+        # * GITEA__database__PASSWD
+

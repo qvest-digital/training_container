@@ -1,5 +1,14 @@
 # Kubernetes Namespaces
 
+<img alt="Kubernetes Namespace Icon" src="./images/k8s-icons/resources/labeled/ns.svg" class="k8s-icon-large-centered">
+
+In this chapter you will learn about the concept of Kubernetes namespaces
+and how they can be used to separate your workloads.
+
+----
+
+## What are Namespaces?
+
 - Kubernetes uses namespaces to separate or isolate resources inside a single cluster.
 - Resource names inside the same namespace need to be unique.
 - There are cluster-wide Objects available that are not taking care of namespace boundaries.

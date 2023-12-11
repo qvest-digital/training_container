@@ -395,12 +395,67 @@ werden. (nicht im Scope des Teils des heutigen Workshops)
 
 <div><img src="./images/k8s-icons/resources/labeled/svc.svg" class="k8s-icon-large-centered"></div>
 
-**Was ist ein Service?**
-
-* DNS &amp; Cluster-internes Load balancing
-* Services ermöglichen Pods den Zugriff auf andere Pods
+In this chapter you will learn how to work with Kubernetes Services
 
 ----
+
+## What is a Service?
+
+* DNS &amp; Cluster-internal Load balancing
+* Services enable Pods to establish network connections to other pods
+
+----
+
+## Service Types
+
+Kubernetes distinguishes between 4 different service types:
+
+* ClusterIP (default)
+* NodePort
+* LoadBalancer
+* ExternalName
+
+Notes:
+- First 3 service types derive behavior from each other.
+- ExternalName is kind of a special case, which is rarely used.
+
+## Service Type: `ClusterIP`
+
+<q cite="https://kubernetes.io/docs/concepts/services-networking/service/#type-clusterip">
+This default Service type assigns an IP address from a pool of IP addresses that your cluster has reserved for that purpose.</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-clusterip)
+
+----
+
+## Service Type: `NodePort`
+
+<q cite="https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport">
+If you set the `type` field to `NodePort`, the Kubernetes control plane allocates a port from a range specified by `--service-node-port-range` flag (default: 30000-32767). Each node proxies that port (the same port number on every Node) into your Service. Your Service reports the allocated port in its `.spec.ports[*].nodePort` field.
+</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
+
+----
+
+## Service Type: `LoadBalancer`
+
+<q cite="https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer">
+On cloud providers which support external load balancers, setting the type field to LoadBalancer provisions a load balancer for your Service. The actual creation of the load balancer happens asynchronously, and information about the provisioned balancer is published in the Service's .status.loadBalancer field.
+</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
+
+K3S also offers load balancing functionality by utilizing "ServiceLB" (formerly known as "Klipper").
+
+Notes:
+- "cloud providers" is kind of an odd description, because many Kubernetes distributions (including k3s)
+  ship their own implementations to provider LB functionality.
+- k3s utilizes ServiceLB (a.k.a. Klipper)
+- Mention metallb as the de-facto standard in on-prem environments.
+
+----
+
 
 ## Hands-on
 
@@ -534,7 +589,7 @@ In this chapter you will learn how to create and use ConfigMaps.
 kubectl apply -f ./examples/basic_configMap.yaml
 ```
 
-<iframe src="http://localhost:4200?u=trainer&p=trainer"></iframe>
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
 
 ----
 
@@ -758,6 +813,17 @@ in the configuration file *or* an environment variable.
 
 ## Hands-on Questions
 
+* What is the difference between `envFrom` and `env.*.valueFrom` when
+  configuring a Pod template?
+* Can anybody with permissions to create/modify Pods in a namespace
+  access the secrets of the namespace itself?
+
+Notes:
+- Answer to 2nd question: it depends: direct access might have been
+  restricted (RBAC -> out of scope), but if it is possible for a user
+  to create pods, it is always possible to create a pod that mounts the
+  secret either as file or have it's values injected via env vars.
+
 ----
 
 ## Secrets - Summary
@@ -820,7 +886,7 @@ kubectl pvc
 ---
 ---
 
-# Kubernetes Deployments & ReplicaSets
+# Kubernetes Deployments &amp; ReplicaSets
 
 <div>
   <img src="./images/k8s-icons/resources/labeled/rs.svg" class="k8s-icon-large-centered">
@@ -832,7 +898,7 @@ Notes:
 
 ----
 
-## Was ist ein ReplicaSet?
+## What is a ReplicaSet?
 
 <q cite="">A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.</q>
 
@@ -871,10 +937,86 @@ kubectl apply -f ./examples/deployment.yaml
 
 ---
 
-# Kubernetes StatefulSet
+# Kubernetes StatefulSets
+
+<img src="./images/k8s-icons/resources/labeled/sts.svg" class="k8s-icon-large-centered">
+
+In this chapter you will learn when to use StatefulSets to define your workloads.
+
+----
+
+## What is a StatefulSet?
+
+<q cite="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">StatefulSet is the workload API object used to manage stateful applications.
+Manages the deployment and scaling of a set of Pods, and provides guarantees about the ordering and uniqueness of these Pods.</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
+
+----
+
+## When to use StatefulSets
+
+<q cite="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#using-statefulsets">StatefulSets are valuable for applications that require one or more of the following.
+
+* Stable, unique network identifiers.
+* Stable, persistent storage.
+* Ordered, graceful deployment and scaling.
+* Ordered, automated rolling updates.
+
+In the above, stable is synonymous with persistence across Pod (re)scheduling. If an application doesn't require any stable identifiers or ordered deployment, deletion, or scaling, you should deploy your application using a workload object that provides a set of stateless replicas.</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#using-statefulsets)
+
+----
+
+## Limitations
+
+<q cite="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#limitations">
+* The storage for a given Pod must either be provisioned by a PersistentVolume Provisioner based on the requested storage class, or pre-provisioned by an admin.
+* Deleting and/or scaling a StatefulSet down will not delete the volumes associated with the StatefulSet. This is done to ensure data safety, which is generally more valuable than an automatic purge of all related StatefulSet resources.
+* StatefulSets currently require a Headless Service to be responsible for the network identity of the Pods. You are responsible for creating this Service.
+* StatefulSets do not provide any guarantees on the termination of pods when a StatefulSet is deleted. To achieve ordered and graceful termination of the pods in the StatefulSet, it is possible to scale the StatefulSet down to 0 prior to deletion.
+* When using Rolling Updates with the default Pod Management Policy (`OrderedReady`), it's possible to get into a broken state that requires manual intervention to repair.
+
+----
+
+## Example
+
+```sh
+kubectl apply -f ./chapters/91_statefulsets/mariadb-cluster.yaml
+```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
+
+----
+
+## Should I really be using StatefulSets?
+
+<q cite="https://x.com/kelseyhightower/status/963419099144495104">Kubernetes supports stateful workloads; I don't.</q>
+([Kelsey Hightower](https://x.com/kelseyhightower/status/963419099144495104))
+
+----
+
+## StatefulSets - Summary
+
+* Complicated when using workloads that are not "Kubernetes-aware"
+* Either rely on official Helm charts and/or use an Operator if possible
+
+Notes:
+- RBAC and operators ...
+
 ---
 
 # Kubernetes Namespaces
+
+<img alt="Kubernetes Namespace Icon" src="./images/k8s-icons/resources/labeled/ns.svg" class="k8s-icon-large-centered">
+
+In this chapter you will learn about the concept of Kubernetes namespaces
+and how they can be used to separate your workloads.
+
+----
+
+## What are Namespaces?
 
 - Kubernetes uses namespaces to separate or isolate resources inside a single cluster.
 - Resource names inside the same namespace need to be unique.
@@ -919,7 +1061,7 @@ Note:
 
 We want to move all Gitea components into there own namespace.
 
-Start with your old deployed yaml files. If not in hand use [these](tbd).
+Start with your old deployed yaml files.
 
 ### Goal
 
@@ -941,6 +1083,7 @@ The whole Gitea deployment with all resources are moved into the namespace "gite
 ## Hands-on
 
 <iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+
 ---
 
 # Optionals
