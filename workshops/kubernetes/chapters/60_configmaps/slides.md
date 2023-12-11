@@ -1,6 +1,6 @@
 # Kubernetes ConfigMaps
 
-<img src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
+<img alt="Kubernetes ConfigMap Icon" src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
 
 In this chapter you will learn how to create and use ConfigMaps.
 
@@ -8,28 +8,29 @@ In this chapter you will learn how to create and use ConfigMaps.
 
 ## ConfigMaps
 
-**Was ist eine ConfigMap?**
+**What is a ConfigMap?**
 
 * Key-value storage
-* Stellen Umgebungsvariablen oder Dateien für Pods zur Verfügung
+* Decoupled way to provide config files and/or environment variables
 
 ----
 
-## Anlegen einer ConfigMap
+## Creating a ConfigMap
 
 ```sh
-kubectl apply -f
-
+kubectl apply -f ./examples/basic_configMap.yaml
 ```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
+
 ----
 
-## ConfigMaps - Änderungen
+## ConfigMaps - Changing their contents
 
-* ConfigMaps *können* als "`immutable`* markiert werden
-  (seit Kubernetes 1.21 ist das ein stabiles Feature, also relativ neu)
-* Wie erfahren Pods, dass sich referenzierte ConfigMaps geändert haben?
-  - `envFrom`: Änderungen werden nicht propagiert
-  - `volumeMount`: Änderungen werden nur propagiert, wenn kein `subPath` verwendet wird
+* ConfigMaps *can* be marked as "`immutable`"
+* How are Pods notified if referenced ConfigMaps have been changed?
+  - `spec.containers.*.envFrom`: changes will not be propagated
+  - `spec.containers.*.volumeMounts`: Changes will only be propagated if no `subPath` is in use
 
 ----
 
@@ -38,9 +39,9 @@ kubectl apply -f
 We want to fully automate the installation process of Gitea.
 Goal is to pre-configure everything using Kubernetes manifests.
 
-Use the old deployed yaml files of Gitea. If not at hand see [here](tbd)
+----
 
-### Goal
+## Hands-on Goal
 
 Make sure that Gitea will be immediately up and running when started
 
@@ -80,15 +81,39 @@ variable has to be set.
 
 ## Hands-on
 
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
+
+----
+
+## Storage constraints
+
+<q cite="https://kubernetes.io/docs/concepts/configuration/configmap/">
+A ConfigMap is not designed to hold large chunks of data.
+The data stored in a ConfigMap cannot exceed 1 MiB.
+If you need to store settings that are larger than this limit,
+you may want to consider mounting a volume or use a separate database or
+file service.
+</q>
+
+Source: <a href="https://kubernetes.io/docs/concepts/configuration/configmap/">Kubernetes Documentation</a>
+
+----
+
+## Abuse of ConfigMaps
+
+Albeit not the original purpose, ConfigMaps are sometimes used to for a wide
+range of "exotic" tasks, such as:
+
+- Storage of shell scripts
+- Storage of binary data (images, PDF files,...)
 
 ----
 
 ## Summary
 
-* ConfigMaps sind Key-value stores
-* Gut für: die Ablage von Umgebungsvariablen (.env File)
-* Gut für: Konfigurationsdateien
-* ConfigMaps können als `immutable` markiert werden
-* Versionierung kann über Suffixes (z.B. Hashes des Inhalts o.Ä.) erfolgen
-* Vorsicht mit Werten, die in JSON/YAML kein String sind!
+* ConfigMaps store data as key-value pairs (values must be strings)
+* Well suited for: storing environment variables (`.env` files)
+* Well suited to be used to store config files (YAML multilines)
+* ConfigMaps can be marked as `immutable`
+* Versioning of ConfigMaps possible by name suffixes (e.g. hashing the contents)
+* Make sure to always quote non-string values

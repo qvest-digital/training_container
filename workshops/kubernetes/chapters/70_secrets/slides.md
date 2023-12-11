@@ -1,12 +1,25 @@
 # Kubernetes Secrets
 
-<div><img src="./images/k8s-icons/resources/labeled/secret.svg" class="k8s-icon-large-centered"></div>
+<div><img alt="Kubernetes Secrets Icon" src="./images/k8s-icons/resources/labeled/secret.svg" class="k8s-icon-large-centered"></div>
 
-**Was ist ein Secret?**
+In this chapter you will learn how to work with Kubernetes Secrets.
 
 ----
 
-## Secrets - base64-Daten
+## What is a Secret?
+
+<q cite="https://kubernetes.io/docs/concepts/configuration/secret/">
+A Secret is an object that contains a small amount of sensitive data such as a password,
+a token, or a key.
+Such information might otherwise be put in a Pod specification or in a container image.
+Using a Secret means that you don't need to include confidential data in your application code.
+</q>
+
+Source: <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Documentation</a>
+
+----
+
+## Storage of base64 encoded data
 
 ```yaml
 apiVersion: v1
@@ -20,27 +33,27 @@ data:
 
 ----
 
-## Secrets - Anlegen eines Secrets
+## Secrets - Creating a secret (declarative way)
 
 ```sh
 kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
 ```
 
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
 
 ----
 
 ## Secrets - Typen
 
-* `Opaque` (am häufigsten verwendet)
+* `Opaque` (most common one)
 * `kubernetes.io/tls`
 * `kubernetes.io/ssh-auth`
 * `kubernetes.io/basic-auth`
 * ...
 
-Ein leerer `spec.type` ist gleichbedeutend mit `spec.type=Opaque`
+Not specifying `spec.type` defaults to `spec.type=Opaque`
 
-Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/configuration/secret/)
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/configuration/secret/)
 
 Notes:
 - Neue types können durch AdmissionControls in Form einer
@@ -50,39 +63,71 @@ Notes:
 
 ## Secrets - stringData
 
-Vereinfachtes Anlegen von Secrets mit einer "write only" Property:
+Simplified secret creation using a "write only" property ("stringData"):
 
 ```yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: test-secret-1
+  name: test-secret-from-string-data
 stringData:
-  foo: bar
+  foo: "bar"
   bar: |
-    Ein etwas längerer Wert mit viel Text
-    und so ....
+    More information that
+    might even span multiple
+    lines ...
 ```
 
 ----
 
-## Secrets - Zugriff per API
+## Secrets - Access via API
 
-* Shell scripting mit `kubectl`, `jq` und `base64`
+* Shell scripting with `kubectl`, `jq` and `base64`
 
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
 
 Notes:
-- verschieden Möglichkeite zeigen, wie Daten ausgelesen werden können.
+- verschieden Möglichkeiten zeigen, wie Daten ausgelesen werden können.
 - | jq ... | base64
 - -o go-template='{{ .data.??? }}' ...
 - -o jsonpath='{.data.???}'
 
 ----
 
+## Hands-on Secrets
+
+We want to automatically set and distribute database credentials.
+
+----
+
+## Hands-on Goal
+
+Make sure that the password of the underlying Gitea database is
+propagated to the Gitea server process.
+
+----
+
+## Hands-on Background
+
+Gitea can be configured to use an external database (MySQL/MariaDB or
+PostgreSQL). The credentials used to access the database can be stored
+in the configuration file *or* an environment variable.
+
+([Gitea Docs](https://docs.gitea.com/administration/config-cheat-sheet#database-database))
+
+----
+
+## Hands-o Background Tasks
+
+----
+
+## Hands-on Questions
+
+----
+
 ## Secrets - Summary
 
-* Secrets funktionieren im Wesentichen wie ConfigMaps
-* Secrets haben einen Typen (default: `Opaque`)
-* Secrets *können* (wie ConfigMaps) als "`immutable`" markiert werden
-* Die Values eines Secrets sind base64 encoded
+* Secrets are very similar to ConfigMaps
+* Secrets have a type that might be used to validate their contents (default: `Opaque`)
+* Secrets can be marked as "`immutable`" (just like ConfigMaps)
+* Values stored in a Secret are always stored base64 encoded

@@ -1,4 +1,4 @@
-# Kubernetes Ressurces
+# Kubernetes Resources
 
 *What is a kubernetes resource?*
 

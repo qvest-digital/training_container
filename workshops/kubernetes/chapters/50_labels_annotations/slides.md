@@ -1,7 +1,7 @@
 # Kubernetes Labels &amp; Annotations
 
 - What are kubernetes labels and annotations?
-- How do you create/attache labels?
+- How do you create/attach labels?
 
 ----
 

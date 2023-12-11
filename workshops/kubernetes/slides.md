@@ -211,39 +211,7 @@ Source: [kubernetes.io/docs](https://kubernetes.io/docs/reference/kubectl/cheats
 
 ---
 
-## Kubernetes Pods
-
-<!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/dolphins.jpg" -->
-
-<div><img src="./images/k8s-icons/resources/labeled/pod.svg" class="k8s-icon-large-centered"></div>
-
-**What is a pod?**
-
-<q cite="https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod">Pods are herds of marine mammals including whales, dolphins, walruses and seals.</q>
-
-Source: [BBC Science Focus](https://www.sciencefocus.com/nature/whats-the-difference-between-a-shoal-a-school-and-a-pod)
-
-----
-
-### Examples for this workshop?
-
-Go get 'em: `https://github.com/qvest-digital/training_container`
-
-----
-
-### Kubernetes Pods - apply
-
-Create a "gitea" pod by using the provided YAML file
-
-```sh
-kubectl apply -f ./examples/k3s/gitea/basic_pod.yaml
-```
-
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
-
----
-
-# Kubernetes Pods
+# Kubernetes Pods xxx
 
 <!-- .slide: data-background-opacity="20%" data-background-image="./images/backgrounds/dolphins.jpg" -->
 
@@ -366,7 +334,7 @@ Additional stuff:
 
 ---
 
-# Kubernetes Ressurces
+# Kubernetes Resources
 
 *What is a kubernetes resource?*
 
@@ -483,7 +451,7 @@ kubectl get endpoints "${SERVICE_NAME}" -o=jsonpath='{.subsets[*].addresses[*].i
 # Kubernetes Labels &amp; Annotations
 
 - What are kubernetes labels and annotations?
-- How do you create/attache labels?
+- How do you create/attach labels?
 
 ----
 
@@ -545,7 +513,7 @@ metadata:
 
 # Kubernetes ConfigMaps
 
-<img src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
+<img alt="Kubernetes ConfigMap Icon" src="./images/k8s-icons/resources/labeled/cm.svg" class="k8s-icon-large-centered">
 
 In this chapter you will learn how to create and use ConfigMaps.
 
@@ -553,28 +521,29 @@ In this chapter you will learn how to create and use ConfigMaps.
 
 ## ConfigMaps
 
-**Was ist eine ConfigMap?**
+**What is a ConfigMap?**
 
 * Key-value storage
-* Stellen Umgebungsvariablen oder Dateien für Pods zur Verfügung
+* Decoupled way to provide config files and/or environment variables
 
 ----
 
-## Anlegen einer ConfigMap
+## Creating a ConfigMap
 
 ```sh
-kubectl apply -f
-
+kubectl apply -f ./examples/basic_configMap.yaml
 ```
+
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
+
 ----
 
-## ConfigMaps - Änderungen
+## ConfigMaps - Changing their contents
 
-* ConfigMaps *können* als "`immutable`* markiert werden
-  (seit Kubernetes 1.21 ist das ein stabiles Feature, also relativ neu)
-* Wie erfahren Pods, dass sich referenzierte ConfigMaps geändert haben?
-  - `envFrom`: Änderungen werden nicht propagiert
-  - `volumeMount`: Änderungen werden nur propagiert, wenn kein `subPath` verwendet wird
+* ConfigMaps *can* be marked as "`immutable`"
+* How are Pods notified if referenced ConfigMaps have been changed?
+  - `spec.containers.*.envFrom`: changes will not be propagated
+  - `spec.containers.*.volumeMounts`: Changes will only be propagated if no `subPath` is in use
 
 ----
 
@@ -583,9 +552,9 @@ kubectl apply -f
 We want to fully automate the installation process of Gitea.
 Goal is to pre-configure everything using Kubernetes manifests.
 
-Use the old deployed yaml files of Gitea. If not at hand see [here](tbd)
+----
 
-### Goal
+## Hands-on Goal
 
 Make sure that Gitea will be immediately up and running when started
 
@@ -625,30 +594,67 @@ variable has to be set.
 
 ## Hands-on
 
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
+
+----
+
+## Storage constraints
+
+<q cite="https://kubernetes.io/docs/concepts/configuration/configmap/">
+A ConfigMap is not designed to hold large chunks of data.
+The data stored in a ConfigMap cannot exceed 1 MiB.
+If you need to store settings that are larger than this limit,
+you may want to consider mounting a volume or use a separate database or
+file service.
+</q>
+
+Source: <a href="https://kubernetes.io/docs/concepts/configuration/configmap/">Kubernetes Documentation</a>
+
+----
+
+## Abuse of ConfigMaps
+
+Albeit not the original purpose, ConfigMaps are sometimes used to for a wide
+range of "exotic" tasks, such as:
+
+- Storage of shell scripts
+- Storage of binary data (images, PDF files,...)
 
 ----
 
 ## Summary
 
-* ConfigMaps sind Key-value stores
-* Gut für: die Ablage von Umgebungsvariablen (.env File)
-* Gut für: Konfigurationsdateien
-* ConfigMaps können als `immutable` markiert werden
-* Versionierung kann über Suffixes (z.B. Hashes des Inhalts o.Ä.) erfolgen
-* Vorsicht mit Werten, die in JSON/YAML kein String sind!
+* ConfigMaps store data as key-value pairs (values must be strings)
+* Well suited for: storing environment variables (`.env` files)
+* Well suited to be used to store config files (YAML multilines)
+* ConfigMaps can be marked as `immutable`
+* Versioning of ConfigMaps possible by name suffixes (e.g. hashing the contents)
+* Make sure to always quote non-string values
 
 ---
 
 # Kubernetes Secrets
 
-<div><img src="./images/k8s-icons/resources/labeled/secret.svg" class="k8s-icon-large-centered"></div>
+<div><img alt="Kubernetes Secrets Icon" src="./images/k8s-icons/resources/labeled/secret.svg" class="k8s-icon-large-centered"></div>
 
-**Was ist ein Secret?**
+In this chapter you will learn how to work with Kubernetes Secrets.
 
 ----
 
-## Secrets - base64-Daten
+## What is a Secret?
+
+<q cite="https://kubernetes.io/docs/concepts/configuration/secret/">
+A Secret is an object that contains a small amount of sensitive data such as a password,
+a token, or a key.
+Such information might otherwise be put in a Pod specification or in a container image.
+Using a Secret means that you don't need to include confidential data in your application code.
+</q>
+
+Source: <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Documentation</a>
+
+----
+
+## Storage of base64 encoded data
 
 ```yaml
 apiVersion: v1
@@ -662,27 +668,27 @@ data:
 
 ----
 
-## Secrets - Anlegen eines Secrets
+## Secrets - Creating a secret (declarative way)
 
 ```sh
 kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
 ```
 
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
 
 ----
 
 ## Secrets - Typen
 
-* `Opaque` (am häufigsten verwendet)
+* `Opaque` (most common one)
 * `kubernetes.io/tls`
 * `kubernetes.io/ssh-auth`
 * `kubernetes.io/basic-auth`
 * ...
 
-Ein leerer `spec.type` ist gleichbedeutend mit `spec.type=Opaque`
+Not specifying `spec.type` defaults to `spec.type=Opaque`
 
-Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/configuration/secret/)
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/configuration/secret/)
 
 Notes:
 - Neue types können durch AdmissionControls in Form einer
@@ -692,42 +698,74 @@ Notes:
 
 ## Secrets - stringData
 
-Vereinfachtes Anlegen von Secrets mit einer "write only" Property:
+Simplified secret creation using a "write only" property ("stringData"):
 
 ```yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: test-secret-1
+  name: test-secret-from-string-data
 stringData:
-  foo: bar
+  foo: "bar"
   bar: |
-    Ein etwas längerer Wert mit viel Text
-    und so ....
+    More information that
+    might even span multiple
+    lines ...
 ```
 
 ----
 
-## Secrets - Zugriff per API
+## Secrets - Access via API
 
-* Shell scripting mit `kubectl`, `jq` und `base64`
+* Shell scripting with `kubectl`, `jq` and `base64`
 
-<iframe src="http://localhost:4200?u=trainer&p=trainer"> <!-- .element: class="fragment" -->
+<iframe src="http://localhost:4200?u=trainer&p=trainer"><!-- .element: class="fragment" --></iframe>
 
 Notes:
-- verschieden Möglichkeite zeigen, wie Daten ausgelesen werden können.
+- verschieden Möglichkeiten zeigen, wie Daten ausgelesen werden können.
 - | jq ... | base64
 - -o go-template='{{ .data.??? }}' ...
 - -o jsonpath='{.data.???}'
 
 ----
 
+## Hands-on Secrets
+
+We want to automatically set and distribute database credentials.
+
+----
+
+## Hands-on Goal
+
+Make sure that the password of the underlying Gitea database is
+propagated to the Gitea server process.
+
+----
+
+## Hands-on Background
+
+Gitea can be configured to use an external database (MySQL/MariaDB or
+PostgreSQL). The credentials used to access the database can be stored
+in the configuration file *or* an environment variable.
+
+([Gitea Docs](https://docs.gitea.com/administration/config-cheat-sheet#database-database))
+
+----
+
+## Hands-o Background Tasks
+
+----
+
+## Hands-on Questions
+
+----
+
 ## Secrets - Summary
 
-* Secrets funktionieren im Wesentichen wie ConfigMaps
-* Secrets haben einen Typen (default: `Opaque`)
-* Secrets *können* (wie ConfigMaps) als "`immutable`" markiert werden
-* Die Values eines Secrets sind base64 encoded
+* Secrets are very similar to ConfigMaps
+* Secrets have a type that might be used to validate their contents (default: `Opaque`)
+* Secrets can be marked as "`immutable`" (just like ConfigMaps)
+* Values stored in a Secret are always stored base64 encoded
 
 ---
 
