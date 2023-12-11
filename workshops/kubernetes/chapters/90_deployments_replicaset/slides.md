@@ -40,7 +40,7 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/workloads
 Erstelle ein Gitea-Server Deployment
 
 ```sh
-kubectl apply -f ./ext_gitea_server_deployment.yaml
+kubectl apply -f ./examples/deployment.yaml
 ```
 
 - Schaue Dir das Deployment mit `kubectl get` an
