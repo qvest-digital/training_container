@@ -1,7 +1,7 @@
 # Container mit kubernetes
 
 <div id="header-footer">
-  <p class="slide-footer"><img src="images/qvest/logo-orange.svg" height="64"><br>Qvest Digital AG<br></p>
+  <p class="slide-footer"><img alt="Qvest Logo" src="images/qvest/logo-orange.svg" height="64"><br>Qvest Digital AG<br></p>
 </div>
 
 ----
