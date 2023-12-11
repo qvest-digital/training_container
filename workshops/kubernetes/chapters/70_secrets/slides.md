@@ -43,7 +43,7 @@ kubectl apply -f ./examples/k3s/gitea/basic_secret.yaml
 
 ----
 
-## Secrets - Typen
+## Secrets - Types
 
 * `Opaque` (most common one)
 * `kubernetes.io/tls`
@@ -114,7 +114,7 @@ PostgreSQL). The credentials used to access the database can be stored
 in the configuration file *or* an environment variable.
 
 ([Gitea Docs](https://docs.gitea.com/administration/config-cheat-sheet#database-database))
-
+([MariaDB container documentation](https://hub.docker.com/_/mariadb))
 ----
 
 ## Hands-o Background Tasks
