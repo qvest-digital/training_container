@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea-server
+  namespace: gitea
+  labels:
+    component: webserver
+    app: gitea
+    part-of: qvest-kube-workshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gitea-server
+      component: webserver
+      app: gitea
+      part-of: qvest-kube-workshop
+  template:
+    metadata:
+      namespace: gitea
+      labels:
+        app.kubernetes.io/name: gitea-server
+        component: webserver
+        app: gitea
+        part-of: qvest-kube-workshop
+    spec:
+      containers:
+      - name: gitea
+        image: docker.io/gitea/gitea:latest

@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea-database
+  namespace: gitea
+  labels:
+    component: database
+    app: gitea
+    part-of: qvest-kube-workshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gitea-database
+      component: database
+      app: gitea
+      part-of: qvest-kube-workshop
+  template:
+    metadata:
+      namespace: gitea
+      labels:
+        app.kubernetes.io/name: gitea-database
+        component: database
+        app: gitea
+        part-of: qvest-kube-workshop
+    spec:
+      containers:
+      - name: database
+        image: docker.io/postgres:latest
+        env:
+          - name: POSTGRES_PASSWORD
+            value: postgres

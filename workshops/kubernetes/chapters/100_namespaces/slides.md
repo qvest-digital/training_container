@@ -43,7 +43,7 @@ Note:
 
 We want to move all Gitea components into there own namespace.
 
-Start with your old deployed yaml files. If not in hand use [these](tbd).
+Start with your old deployed yaml files.
 
 ### Goal
 
