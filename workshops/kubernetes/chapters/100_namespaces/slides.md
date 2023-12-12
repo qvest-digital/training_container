@@ -10,9 +10,9 @@ and how they can be used to separate your workloads.
 ## What are Namespaces?
 
 - Kubernetes uses namespaces to separate or isolate resources inside a single cluster.
-- Resource names inside the same namespace need to be unique.
-- There are cluster-wide Objects available that are not taking care of namespace boundaries.
-  - e.g. StorageClass, Nodes, PersistentVolumes or Namespaces itself
+- Resource names inside the same namespace need to be unique
+- There are cluster-wide Objects available that are not taking care of namespace boundaries
+  - e.g. StorageClass, Nodes, PersistentVolumes or Namespaces themselves
 - set with: `metadata.namespace` inside a yaml
 
 ----

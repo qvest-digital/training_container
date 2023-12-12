@@ -842,26 +842,32 @@ Notes:
   <img src="./images/k8s-icons/resources/labeled/pvc.svg" class="k8s-icon-large-centered">
 </div>
 
-PersistenceVolumes &amp; PersistentVolumeClaims
+PersistentVolumes &amp; PersistentVolumeClaims
 
 ----
 
-## Persistence Volumes
+## Persistent Volumes
 
-- Der Storage in Pods ist grundsätzlich "ephemeral" (*kurzlebig*)
-  - Restart oder Crash führen zu einem Verlust der Daten
+- Storage in Pods by default is "ephemeral" (*short-lived*)
+  - Restart or crash of a Pod will lead to data loss
 
-Um dies zu verhindern gibt es verschiedene Storage Provider
+To prevent this, a storage provider can be used:
 
 - [Built-in Types by K8S](https://kubernetes.io/docs/concepts/storage/volumes/)
-- Erweiterbar über Plugins
+- Extensibility: storage provider plugins
 
 ----
 
 ## LocalStorageProvider in k3s
 
-Ein `PersitentVolumeClaim` ist ein User-spezifischer "Storage Request",
-der dazu dient Storage über das jeweilig Plugin zu beanspruchen.
+A `PersitentVolumeClaim` is a "storage request",
+to claim storage defined by certain characteristics.
+
+Characteristics:
+- Storage class (one or more classes can map to the same underlying plugin)
+- Access mode (`ReadWriteMany` / `ReadWriteOnce`)
+- Storage capacity
+- Label selectors
 
 ----
 
@@ -880,10 +886,9 @@ kubectl pvc
 
 ## Hands-on
 
-- Sorge dafür das deine Datenbank &amp; Gitea ihre Daten persistieren.
-- Nutze hierzu die `local-path` (default) StorageClass von k3s.
+- Ensure that Gitea and its database use persistent storages to store their data.
+- Use the `local-path` (default) StorageClass of k3s.
 
----
 ---
 
 # Kubernetes Deployments &amp; ReplicaSets
@@ -1019,9 +1024,9 @@ and how they can be used to separate your workloads.
 ## What are Namespaces?
 
 - Kubernetes uses namespaces to separate or isolate resources inside a single cluster.
-- Resource names inside the same namespace need to be unique.
-- There are cluster-wide Objects available that are not taking care of namespace boundaries.
-  - e.g. StorageClass, Nodes, PersistentVolumes or Namespaces itself
+- Resource names inside the same namespace need to be unique
+- There are cluster-wide Objects available that are not taking care of namespace boundaries
+  - e.g. StorageClass, Nodes, PersistentVolumes or Namespaces themselves
 - set with: `metadata.namespace` inside a yaml
 
 ----
