@@ -4,11 +4,13 @@ revealOptions:
 
 ---
 
-# Container mit kubernetes
+# Introduction to Kubernetes
 
 <div id="header-footer">
   <p class="slide-footer"><img alt="Qvest Logo" src="images/qvest/logo-orange.svg" height="64"><br>Qvest Digital AG<br></p>
 </div>
+
+[https://github.com/qvest-digital/training_container](https://github.com/qvest-digital/training_container)
 
 ----
 
@@ -63,6 +65,7 @@ Regeln:
 - Optional: Kubernetes DaemonSet
 - Optional: Einblick in Kustomize
 - Optional: Praktische Tools
+
 ---
 
 # Einführung in Kubernetes auf Basis von k3s
@@ -344,6 +347,14 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-ku
 
 ----
 
+## Built-in Resources
+
+<img alt="Overview of the built-in Kubernetes core resources" src="./images/k8s-resources.png" style="width: 800px;"/>
+
+Source: [Jayendra's Cloud Certification Blog](https://jayendrapatil.com/kubernetes-components/)
+----
+
+
 ## Storage of Kubernetes resources
 
 - JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:
@@ -545,7 +556,7 @@ metadata:
   labels:
     app.kubernetes.io/name: mysql
     app.kubernetes.io/instance: mysql-abcxzy
-    app.kubernetes.io/version: "5.7.21" # <-- achtung!
+    app.kubernetes.io/version: "5.7.21"
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: wordpress
     app.kubernetes.io/managed-by: helm
@@ -564,6 +575,7 @@ metadata:
   annotations:
     kubectl.kubernetes.io/default-container: name-of-the-container
 ```
+
 ---
 
 # Kubernetes ConfigMaps
@@ -574,9 +586,7 @@ In this chapter you will learn how to create and use ConfigMaps.
 
 ----
 
-## ConfigMaps
-
-**What is a ConfigMap?**
+## What is a ConfigMap?
 
 * Key-value storage
 * Decoupled way to provide config files and/or environment variables
@@ -593,7 +603,7 @@ kubectl apply -f ./examples/basic_configMap.yaml
 
 ----
 
-## ConfigMaps - Changing their contents
+## Changing the contents of a ConfigMap
 
 * ConfigMaps *can* be marked as "`immutable`"
 * How are Pods notified if referenced ConfigMaps have been changed?
@@ -1007,8 +1017,42 @@ kubectl apply -f ./chapters/91_statefulsets/mariadb-cluster.yaml
 * Complicated when using workloads that are not "Kubernetes-aware"
 * Either rely on official Helm charts and/or use an Operator if possible
 
+Further information: [Deployments vs. StatefulSets vs. DaemonSets](https://medium.com/stakater/k8s-deployments-vs-statefulsets-vs-daemonsets-60582f0c62d4)
+
 Notes:
 - RBAC and operators ...
+
+---
+
+# Kubernetes Daemonset
+
+<img src="./images/k8s-icons/resources/labeled/ds.svg" class="k8s-icon-large-centered">
+
+In this chapter you will learn about DaemonSets.
+
+----
+
+## What is a DaemonSet?
+
+<q cite="- https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
+
+----
+
+## When to use DaemonSets
+
+<q cite="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">Some typical uses of a DaemonSet are:
+
+* running a cluster storage daemon on every node
+* running a logs collection daemon on every node
+* running a node monitoring daemon on every node"></q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
+
+Notes:
+- no hands-on lesson, because from an app developer's point of view it is
+  rarely useful to deploy DaemonSets to host your application workloads.
 
 ---
 
@@ -1093,11 +1137,8 @@ The whole Gitea deployment with all resources are moved into the namespace "gite
 
 # Optionals
 
-- Kubernetes StatefulSet
-- Kubernetes DaemonSet
-- DeepDive PersitentVolumes & Claims
 - `Kustomize`
-- Usefull Tools
+- Useful Tools
  - [k9s](https://k9scli.io/)
  - [kubectx / kubens](https://github.com/ahmetb/kubectx)
  - [popeye](https://github.com/derailed/popeye)
@@ -1116,4 +1157,4 @@ The whole Gitea deployment with all resources are moved into the namespace "gite
 
 ---
 
-## Ende
+## End

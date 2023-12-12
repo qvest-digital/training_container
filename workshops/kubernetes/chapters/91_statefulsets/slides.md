@@ -63,5 +63,7 @@ kubectl apply -f ./chapters/91_statefulsets/mariadb-cluster.yaml
 * Complicated when using workloads that are not "Kubernetes-aware"
 * Either rely on official Helm charts and/or use an Operator if possible
 
+Further information: [Deployments vs. StatefulSets vs. DaemonSets](https://medium.com/stakater/k8s-deployments-vs-statefulsets-vs-daemonsets-60582f0c62d4)
+
 Notes:
 - RBAC and operators ...

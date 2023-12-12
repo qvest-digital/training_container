@@ -8,6 +8,14 @@ Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-ku
 
 ----
 
+## Built-in Resources
+
+<img alt="Overview of the built-in Kubernetes core resources" src="./images/k8s-resources.png" style="width: 800px;"/>
+
+Source: [Jayendra's Cloud Certification Blog](https://jayendrapatil.com/kubernetes-components/)
+----
+
+
 ## Storage of Kubernetes resources
 
 - JSON-Objekte mit 3 oder 4 Keys zur eindeutigen Identifikation:

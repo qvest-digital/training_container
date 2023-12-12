@@ -52,17 +52,18 @@ revealOptions:
 
 ---
 
+!INCLUDE "./chapters/92_daemonsets/slides.md"
+
+---
+
 !INCLUDE "./chapters/100_namespaces/slides.md"
 
 ---
 
 # Optionals
 
-- Kubernetes StatefulSet
-- Kubernetes DaemonSet
-- DeepDive PersitentVolumes & Claims
 - `Kustomize`
-- Usefull Tools
+- Useful Tools
  - [k9s](https://k9scli.io/)
  - [kubectx / kubens](https://github.com/ahmetb/kubectx)
  - [popeye](https://github.com/derailed/popeye)
@@ -81,4 +82,4 @@ revealOptions:
 
 ---
 
-## Ende
+## End

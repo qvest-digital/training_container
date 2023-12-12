@@ -6,9 +6,7 @@ In this chapter you will learn how to create and use ConfigMaps.
 
 ----
 
-## ConfigMaps
-
-**What is a ConfigMap?**
+## What is a ConfigMap?
 
 * Key-value storage
 * Decoupled way to provide config files and/or environment variables
@@ -25,7 +23,7 @@ kubectl apply -f ./examples/basic_configMap.yaml
 
 ----
 
-## ConfigMaps - Changing their contents
+## Changing the contents of a ConfigMap
 
 * ConfigMaps *can* be marked as "`immutable`"
 * How are Pods notified if referenced ConfigMaps have been changed?
