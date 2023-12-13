@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitea-mariadb
+data:
+  MARIADB_DATABASE: gitea
+  config.yaml: |
+    username: jasmin
+    usersurname: tea

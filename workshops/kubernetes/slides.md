@@ -164,15 +164,16 @@ Source: [k3s Dokumentation](https://docs.k3s.io/architecture)
 
 ## When not to use kubernetes
 
-- Missing experienced DevOps infrastructure engineers in team,
-  - training costs and managing a Kubernetes cluster may be too high.
-- Kubernetes excels in supporting large projects
-  - small application which not require complex scaling/management
-- Implementing Kubernetes is a slow and resource-demanding process
-- If projects need to iterate quickly
-  - Kubernetes might introduce an unacceptable management overhead.
-- migration of legacy applications to containers is a time-consuming process.
-  - The teams working on such applications often benefit more from traditional infrastructure management tools.
+  - Missing experienced DevOps infra engineers in team
+    - training costs and managing a Kubernetes cluster may be too high.
+  - Kubernetes excels in supporting large projects
+    - small application which not require complex scaling/management
+  - Implementing Kubernetes is a slow and resource-demanding process
+  - If projects need to iterate quickly
+    - Kubernetes might introduce an unacceptable management overhead.
+  - migration of legacy applications to containers is a time-consuming process.
+    - The teams working on such applications often benefit more from traditional infrastructure management tools.
+
 ---
 
 # kubectl
