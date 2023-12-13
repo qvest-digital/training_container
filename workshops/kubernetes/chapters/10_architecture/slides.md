@@ -1,22 +1,19 @@
-# Einführung in Kubernetes auf Basis von k3s
+# Introducion of kubernetes based on k3s
 
- - Schulung für grundlegende Kenntnisse über Kubernetes
- - Fokus auf Einführung in Kubernetes und wichtige Konzepte
- - Praktisches Beispiel: Bereitstellung von Gitea mit PostgreSQL in Kubernetes
+ - Workshop for kubernetes basic concepts & resources
+ - With hands-on example:
+   - Deploying: Gitea with PostgreSQL into k3s
 
 ----
 
-## Inhaltsverzeichnis
+## Content
 
-- Was ist Kubernetes?
-- Architektur von Kubernetes
-- Architektur-Unterschiede zwischen k8s und k3s
-- Einführung in die Kommandozeile: kubectl
-- Basis Ressourcen &amp; grundlegende Konzepte
-- Optional: Kubernetes StatefulSet
-- Optional: Kubernetes DaemonSet
-- Optional: Einblick in Kustomize
-- Optional: Praktische Tools
+- What is kubernetes?
+- Basic Architecture of kubernetes
+- Architecture differences between k8s und k3s
+- CLI: kubectl
+- Basic resources and concepts
+- Open round with optionals
 
 ---
 
@@ -88,7 +85,21 @@ Source: [k3s Dokumentation](https://docs.k3s.io/architecture)
 ## When to use Kubernetes and when not
 
 - For Microservice Architecture
-- Ensure scale-ability & high availability
+- Ensure scalability & high-availability
 - Utilizing Continuous Integration and Deployment
 - Multi-tenant applications
 - High-performance computing
+
+----
+
+## When not to use kubernetes
+
+- Missing experienced DevOps infrastructure engineers in team,
+  - training costs and managing a Kubernetes cluster may be too high.
+- Kubernetes excels in supporting large projects
+  - small application which not require complex scaling/management
+- Implementing Kubernetes is a slow and resource-demanding process
+- If projects need to iterate quickly
+  - Kubernetes might introduce an unacceptable management overhead.
+- migration of legacy applications to containers is a time-consuming process.
+  - The teams working on such applications often benefit more from traditional infrastructure management tools.
