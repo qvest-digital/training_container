@@ -31,7 +31,7 @@
 
 ----
 
-### „Griechische Seefahrer“
+## „Griechische Seefahrer“
 
 <!-- .slide: data-background-opacity="10%" data-background-image="./images/backgrounds/choco-1920x1080.png" -->
 
@@ -50,7 +50,7 @@ Notes:
 
 ----
 
-### Kubernetes Architecture (K8S)
+## Kubernetes Architecture (K8S)
 
 - Master-Knoten
 - Worker-Knoten
@@ -59,7 +59,7 @@ Notes:
 - Weitere Komponenten
 
 ----
-### Kubernetes Components
+## Kubernetes Components
 
 <div><img src="./images/k8s-architecture-1.png" style="height: 400px;"></div>
 
@@ -67,7 +67,7 @@ Source: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-w
 
 ----
 
-### Architektur-Unterschiede zu k3s
+## Architektur-Unterschiede zu k3s
 
 - (Opininated) Kubernetes ohne Bloat
 - Aussprache: keez / keys (?)
@@ -77,7 +77,7 @@ Source: [CNCF.io blog post](https://www.cncf.io/blog/2019/08/19/how-kubernetes-w
 
 ----
 
-### k3s-Komponenten (Diagramm)
+## k3s-Komponenten (Diagramm)
 
 <div><img src="./images/k3s-architecture-1.png" style="height: 400px;"></div>
 
@@ -85,5 +85,10 @@ Source: [k3s Dokumentation](https://docs.k3s.io/architecture)
 
 ----
 
-### When to use Kubernetes and when not
+## When to use Kubernetes and when not
 
+- For Microservice Architecture
+- Ensure scale-ability & high availability
+- Utilizing Continuous Integration and Deployment
+- Multi-tenant applications
+- High-performance computing
