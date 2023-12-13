@@ -18,7 +18,7 @@
 - Optional: Einblick in Kustomize
 - Optional: Praktische Tools
 
----
+----
 
 ## Was ist Kubernetes?
 
