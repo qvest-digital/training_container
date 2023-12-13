@@ -1,8 +1,10 @@
-# Container mit kubernetes
+# Introduction to Kubernetes
 
 <div id="header-footer">
-  <p class="slide-footer"><img src="images/qvest/logo-orange.svg" height="64"><br>Qvest Digital AG<br></p>
+  <p class="slide-footer"><img alt="Qvest Logo" src="images/qvest/logo-orange.svg" height="64"><br>Qvest Digital AG<br></p>
 </div>
+
+[https://github.com/qvest-digital/training_container](https://github.com/qvest-digital/training_container)
 
 ----
 

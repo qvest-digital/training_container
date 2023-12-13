@@ -2,12 +2,67 @@
 
 <div><img src="./images/k8s-icons/resources/labeled/svc.svg" class="k8s-icon-large-centered"></div>
 
-**Was ist ein Service?**
-
-* DNS &amp; Cluster-internes Load balancing
-* Services ermöglichen Pods den Zugriff auf andere Pods
+In this chapter you will learn how to work with Kubernetes Services
 
 ----
+
+## What is a Service?
+
+* DNS &amp; Cluster-internal Load balancing
+* Services enable Pods to establish network connections to other pods
+
+----
+
+## Service Types
+
+Kubernetes distinguishes between 4 different service types:
+
+* ClusterIP (default)
+* NodePort
+* LoadBalancer
+* ExternalName
+
+Notes:
+- First 3 service types derive behavior from each other.
+- ExternalName is kind of a special case, which is rarely used.
+
+## Service Type: `ClusterIP`
+
+<q cite="https://kubernetes.io/docs/concepts/services-networking/service/#type-clusterip">
+This default Service type assigns an IP address from a pool of IP addresses that your cluster has reserved for that purpose.</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-clusterip)
+
+----
+
+## Service Type: `NodePort`
+
+<q cite="https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport">
+If you set the `type` field to `NodePort`, the Kubernetes control plane allocates a port from a range specified by `--service-node-port-range` flag (default: 30000-32767). Each node proxies that port (the same port number on every Node) into your Service. Your Service reports the allocated port in its `.spec.ports[*].nodePort` field.
+</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
+
+----
+
+## Service Type: `LoadBalancer`
+
+<q cite="https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer">
+On cloud providers which support external load balancers, setting the type field to LoadBalancer provisions a load balancer for your Service. The actual creation of the load balancer happens asynchronously, and information about the provisioned balancer is published in the Service's .status.loadBalancer field.
+</q>
+
+Source: [Kubernetes Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
+
+K3S also offers load balancing functionality by utilizing "ServiceLB" (formerly known as "Klipper").
+
+Notes:
+- "cloud providers" is kind of an odd description, because many Kubernetes distributions (including k3s)
+  ship their own implementations to provider LB functionality.
+- k3s utilizes ServiceLB (a.k.a. Klipper)
+- Mention metallb as the de-facto standard in on-prem environments.
+
+----
+
 
 ## Hands-on
 

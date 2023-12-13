@@ -28,6 +28,7 @@ body {
     color: #384d54;
 }
 
+/*
 .reveal:before {
     content: 'https://github.com/qvest-digital/training_container';
     position: absolute;
@@ -38,6 +39,7 @@ body {
     font-size: 28px;
     overflow: hidden;
 }
+*/
 
 .reveal:after {
     background-image: url('images/qvest/q-48x48.png');

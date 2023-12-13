@@ -1,7 +1,7 @@
 # Kubernetes Labels &amp; Annotations
 
 - What are kubernetes labels and annotations?
-- How do you create/attache labels?
+- How do you create/attach labels?
 
 ----
 
@@ -40,7 +40,7 @@ metadata:
   labels:
     app.kubernetes.io/name: mysql
     app.kubernetes.io/instance: mysql-abcxzy
-    app.kubernetes.io/version: "5.7.21" # <-- achtung!
+    app.kubernetes.io/version: "5.7.21"
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: wordpress
     app.kubernetes.io/managed-by: helm

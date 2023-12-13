@@ -1,4 +1,4 @@
-# Kubernetes Ressurces
+# Kubernetes Resources
 
 *What is a kubernetes resource?*
 
@@ -7,6 +7,14 @@
 Source: [Kubernetes Dokumentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 
 ----
+
+## Built-in Resources
+
+<img alt="Overview of the built-in Kubernetes core resources" src="./images/k8s-resources.png" style="width: 800px;"/>
+
+Source: [Jayendra's Cloud Certification Blog](https://jayendrapatil.com/kubernetes-components/)
+----
+
 
 ## Storage of Kubernetes resources
 
