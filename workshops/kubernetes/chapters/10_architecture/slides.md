@@ -94,7 +94,7 @@ Source: [k3s Dokumentation](https://docs.k3s.io/architecture)
 
 ## When not to use kubernetes
 
-- Missing experienced DevOps infrastructure engineers in team,
+- Missing experienced DevOps infra engineers in team
   - training costs and managing a Kubernetes cluster may be too high.
 - Kubernetes excels in supporting large projects
   - small application which not require complex scaling/management
